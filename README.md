@@ -22,3 +22,4 @@ This is a Visual Studio extension that can improve file navigation for certain p
 
 ## Zebble for Xamarin
 It will switch between a .ZBL markup file and its C# codebehind.
+> For example from App.UI\Views\Modules\Customer.zbl   🡲   App.UI\Views\Modules\Customer.zbl.cs
