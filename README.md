@@ -1,4 +1,4 @@
-# VSIX.SmartF7: Instant File Switcher
+## SmartF7: Instant File Switcher
 
 This is a Visual Studio extension that can improve file navigation for certain project types.
 
