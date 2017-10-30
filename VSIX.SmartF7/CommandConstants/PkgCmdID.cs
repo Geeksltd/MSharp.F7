@@ -12,5 +12,6 @@ namespace Geeks.GeeksProductivityTools
         public const uint CmdOrganizeUsingSlnLevel = 0x10d;
         public const uint CmdCompileTsFiles = 0x10e;
         public const uint CmdOpenInMSharpSln = 0x10f;
+        public const uint CmdOpenDomainFileFromMsharpDomain = 0x10b;
     };
 }
