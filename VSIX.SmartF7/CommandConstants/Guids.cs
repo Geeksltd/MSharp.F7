@@ -16,6 +16,7 @@ namespace Geeks.GeeksProductivityTools
         const string guidOpenInMSharpSlnCmdSetString = "54fb8f31-e4d8-4258-a86d-5b35af2a6208";
         const string guidOrganizeUsingSlnLevelCmdSetString = "932ac1b0-4cfb-4222-a296-ed84df197a64";
         const string guidGeeksProductivityToolsCmdSetString = "8d55b43e-5f7c-44dd-8b02-71c751d8c440";
+        const string guidOpenRelatedFileInVSCmdSetString = "53314338-EE24-4903-8106-A5F0FDFDC7BF";
         //
         public static readonly Guid GuidCompileTsCmdSet = new Guid(guidCompileTsCmdSetString);
         public static readonly Guid GuidMSharpEditorCmdSet = new Guid(guidMSharpEditorCmdSetString);
@@ -26,6 +27,7 @@ namespace Geeks.GeeksProductivityTools
         public static readonly Guid GuidOpenInMSharpSlnCmdSet = new Guid(guidOpenInMSharpSlnCmdSetString);
         public static readonly Guid GuidOrganizeUsingSlnLevelCmdSet = new Guid(guidOrganizeUsingSlnLevelCmdSetString);
         public static readonly Guid GuidGeeksProductivityToolsCmdSet = new Guid(guidGeeksProductivityToolsCmdSetString);
+        public static readonly Guid GuidOpenRelatedFileInVSCmdSet = new Guid(guidOpenRelatedFileInVSCmdSetString);
 
     };
 }

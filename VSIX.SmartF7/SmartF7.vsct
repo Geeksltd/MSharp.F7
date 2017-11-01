@@ -29,6 +29,10 @@
       <Group guid="GuidRunBatchFileCmdSet" id="RunBatchFileCmdSetContextMenuGroup" priority="0x0001">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
       </Group>
+
+      <Group guid="GuidOpenRelatedFileInVSCmdSet" id="OpenRelatedFileInVSCmdSetContextMenuGroup"  priority="0x0001">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+      </Group>
     </Groups>
     <Buttons>
       <Button guid="GuidOpenInMSharpSlnCmdSet" id="cmdOpenInMSharpSln" priority="0x0100" type="Button">
@@ -64,8 +68,22 @@
           <ButtonText>Compile TS into JS</ButtonText>
         </Strings>
       </Button>
+      <Button guid="GuidOpenRelatedFileInVSCmdSet" id="CmdOpenDomainFileFromMsharpDomain" priority="0x0100" type="Button">
+        <Parent guid="GuidOpenRelatedFileInVSCmdSet" id="OpenRelatedFileInVSCmdSetContextMenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <CommandName>CmdOpenDomainFileFromMsharpDomain</CommandName>
+          <ButtonText>Go To Related File</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
   </Commands>
+  <!--<KeyBindings>
+    <KeyBinding guid="GuidOpenRelatedFileInVSCmdSet" id="CmdOpenDomainFileFromMsharpDomain"
+      editor="guidVSStd97"
+      key1="VK_F7" mod1="Control Shift">
+    </KeyBinding>
+  </KeyBindings>-->
   <Symbols>
     <GuidSymbol name="guidAspxMenuParent" value="{D7E8C5E1-BDB8-11D0-9C88-0000F8040A53}">
       <IDSymbol name="cmidAspxMenu" value="0x035" />
@@ -94,6 +112,11 @@
     <GuidSymbol name="GuidOpenInMSharpSlnCmdSet" value="{54fb8f31-e4d8-4258-a86d-5b35af2a6208}">
       <IDSymbol name="OpenInMSharpSlnCmdSetContextMenuGroup" value="0x1024" />
       <IDSymbol name="cmdOpenInMSharpSln" value="0x010f" />
+    </GuidSymbol>
+
+    <GuidSymbol name="GuidOpenRelatedFileInVSCmdSet" value="{53314338-EE24-4903-8106-A5F0FDFDC7BF}" >
+      <IDSymbol name="OpenRelatedFileInVSCmdSetContextMenuGroup" value="0x1023"/>
+      <IDSymbol name="CmdOpenDomainFileFromMsharpDomain" value="0x10b"/>
     </GuidSymbol>
   </Symbols>
 </CommandTable>
