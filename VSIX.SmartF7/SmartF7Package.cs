@@ -3,9 +3,7 @@ using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using EnvDTE80;
 using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.CodeAnalysis;
 using System.Linq;
 
 namespace Geeks.GeeksProductivityTools
@@ -41,6 +39,14 @@ namespace Geeks.GeeksProductivityTools
 
             if (null != menuCommandService)
             {
+                //var mainMenu = new CommandID(GuidList.GuidGeeksProductivityToolsCmdSet, (int)PkgCmdIDList.CmdidMainMenu);
+                //var founded = menuCommandService.FindCommand(mainMenu);
+                //if (founded == null)
+                //{
+                //    var menuCommand2 = new OleMenuCommand(null, mainMenu);
+                //    menuCommandService.AddCommand(menuCommand2);
+                //    menuCommand2.BeforeQueryStatus += MenuCommand2_BeforeQueryStatus;
+                //}
                 // Set up menu items
                 new Menus.OpenInMSharp.OpenInMSharpCodeWindow(menuCommandService).SetupCommands();
                 new Menus.OpenInMSharp.OpenInMSharpSolutionExplorer(menuCommandService).SetupCommands();
@@ -57,6 +63,11 @@ namespace Geeks.GeeksProductivityTools
             docEvents.DocumentSaved += DocumentEvents_DocumentSaved;
             solEvents.Opened += delegate { App.Initialize(GetDialogPage(typeof(OptionsPage)) as OptionsPage); };
         }
+        //private void MenuCommand2_BeforeQueryStatus(object sender, EventArgs e)
+        //{
+
+        //    var cmd = sender as OleMenuCommand;
+        //}
 
         void DocumentEvents_DocumentSaved(EnvDTE.Document document)
         {
