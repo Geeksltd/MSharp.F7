@@ -32,7 +32,7 @@ namespace Geeks.GeeksProductivityTools.Menus
         {
             try
             {
-                App.DTE.ItemOperations.OpenFile(RelatedFilePath);
+                App.DTE.ItemOperations.OpenFile(NextRelatedFilePath());
             }
             catch (Exception err)
             {
@@ -42,15 +42,60 @@ namespace Geeks.GeeksProductivityTools.Menus
 
         void OpenRelatedFileMenuItem_BeforeQueryStatus(object sender, EventArgs e)
         {
-            RelatedFilePath = App.DTE.Solution.FullName.Substring(0, App.DTE.Solution.FullName.LastIndexOf(@"\")) + @"\Domain\Entities\" + App.DTE.ActiveDocument.ProjectItem.Name;
             var cmd = sender as OleMenuCommand;
             cmd.Visible = false;
-            var relatedFile = new System.IO.FileInfo(RelatedFilePath);
 
-            if (null != cmd && App.DTE.ActiveDocument.FullName.ToUpper().IsEntityFile() && relatedFile.Exists && App.DTE.ActiveWindow.Project.Name == "@MSharp.Domain")
+            if (null != cmd && App.DTE.ActiveDocument.FullName.ToUpper().IsEntityFile() )
             {
                 cmd.Visible = true;
             }
+        }
+
+        private string NextRelatedFilePath()
+        {
+            string result= App.DTE.ActiveDocument.FullName;
+
+            var solutionDir = App.DTE.Solution.FullName.Substring(0, App.DTE.Solution.FullName.LastIndexOf(@"\"));
+
+            switch (App.DTE.ActiveWindow.Project.Name)
+            {
+                case "@Model":
+                    if ((new System.IO.DirectoryInfo(solutionDir + @"\Domain\Entities\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).Count() > 0)
+                    {
+                        result = (new System.IO.DirectoryInfo(solutionDir + @"\Domain\Entities\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).FirstOrDefault().FullName;
+                    }
+                    else if ((new System.IO.DirectoryInfo(solutionDir + @"\Domain\-Logic\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).Count() > 0)
+                    {
+                        result = (new System.IO.DirectoryInfo(solutionDir + @"\Domain\-Logic\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).FirstOrDefault().FullName;
+                    }
+                   break;
+                case "Domain":
+                    if (App.DTE.ActiveDocument.FullName.Contains("Entities"))
+                    {
+                        if ((new System.IO.DirectoryInfo(solutionDir + @"\Domain\-Logic\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).Count() > 0)
+                        {
+                            result = (new System.IO.DirectoryInfo(solutionDir + @"\Domain\-Logic\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).FirstOrDefault().FullName;
+                        }
+                        else if ((new System.IO.DirectoryInfo(solutionDir + @"\@M#\@Model\Entities\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).Count() > 0)
+                        {
+                            result = (new System.IO.DirectoryInfo(solutionDir + @"\@M#\@Model\Entities\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).FirstOrDefault().FullName;
+                        }
+                    }
+                    else if (App.DTE.ActiveDocument.FullName.Contains("-Logic"))
+                    {
+                        if ((new System.IO.DirectoryInfo(solutionDir + @"\@M#\@Model\Entities\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).Count() > 0)
+                        {
+                            result = (new System.IO.DirectoryInfo(solutionDir + @"\@M#\@Model\Entities\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).FirstOrDefault().FullName;
+                        }
+                        else if ((new System.IO.DirectoryInfo(solutionDir + @"\Domain\Entities\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).Count() > 0)
+                        {
+                            result = (new System.IO.DirectoryInfo(solutionDir + @"\Domain\Entities\")).GetFiles(App.DTE.ActiveDocument.ProjectItem.Name, System.IO.SearchOption.AllDirectories).FirstOrDefault().FullName;
+                        }
+                    }
+                    break;
+            }
+
+            return result;
         }
     }
 }
