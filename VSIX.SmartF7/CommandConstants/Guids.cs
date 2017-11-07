@@ -6,7 +6,7 @@ namespace Geeks.GeeksProductivityTools
 {
     static class GuidList
     {
-        public const string GuidGeeksProductivityToolsPkgString = "c6176957-c61c-4beb-8dd8-e7c0170b0bf6";
+        public const string SmartF7PackageString = "c6176957-c61c-4beb-8dd8-e7c0170b0bf6";
 
         const string guidCompileTsCmdSetString = "b280ef5d-91d2-43b7-a482-224d04bcb2ef";
         const string guidMSharpEditorCmdSetString = "5b066d90-2a03-4176-81cb-a88921683988";
