@@ -13,17 +13,17 @@ namespace Geeks.GeeksProductivityTools
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(OptionsPage), "Geeks productivity tools", "General", 0, 0, true)]
-    [Guid(GuidList.SmartF7PackageString)]
-    public sealed class SmartF7Package : Package
+    [Guid(GuidList.GuidGeeksProductivityToolsPkgString)]
+    public sealed class GeeksProductivityToolsPackage : Package
     {
-        public SmartF7Package() { }
+        public GeeksProductivityToolsPackage() { }
 
         // Strongly reference events so that it's not GC'd
         EnvDTE.DocumentEvents docEvents;
         EnvDTE.SolutionEvents solEvents;
         EnvDTE.Events events;
 
-        public static SmartF7Package Instance { get; private set; }
+        public static GeeksProductivityToolsPackage Instance { get; private set; }
 
         protected override void Initialize()
         {
