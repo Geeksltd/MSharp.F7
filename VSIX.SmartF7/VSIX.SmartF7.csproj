@@ -54,7 +54,6 @@
     <Reference Include="dotless.Core, Version=1.5.2.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <HintPath>..\packages\dotless.1.5.2\lib\dotless.Core.dll</HintPath>
     </Reference>
-
     <Reference Include="Esent.Interop, Version=1.9.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ManagedEsent.1.9.4\lib\net40\Esent.Interop.dll</HintPath>
     </Reference>
@@ -109,11 +108,9 @@
       <HintPath>..\packages\Microsoft.VisualStudio.Editor.15.4.27004\lib\net45\Microsoft.VisualStudio.Editor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-
     <Reference Include="Microsoft.VisualStudio.LanguageServices, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.LanguageServices.2.4.0\lib\net46\Microsoft.VisualStudio.LanguageServices.dll</HintPath>
     </Reference>
-
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\Microsoft.VisualStudio.OLE.Interop.7.10.6070\lib\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
       <Private>True</Private>
@@ -330,6 +327,7 @@
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Menus\OpenDomainFileFromMsharpDomain.cs" />
+    <Compile Include="Menus\OpenCshtmlFileFromUI.cs" />
     <Compile Include="Menus\OpenInMSharp\OpenInMSharpCodeWindow.cs" />
     <Compile Include="Menus\OpenInMSharp\OpenInMSharpExtensions.cs" />
     <Compile Include="Menus\OpenInMSharp\OpenInMSharpHandler.cs" />

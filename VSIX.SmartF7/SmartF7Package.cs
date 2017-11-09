@@ -55,6 +55,7 @@ namespace Geeks.GeeksProductivityTools
                 new Menus.RunBatchFiles(menuCommandService).SetupCommands();
 
                 new Menus.OpenDomainFileFromMsharpDomain(menuCommandService).SetupCommands();
+                new Menus.OpenCshtmlFileFromUI(menuCommandService).SetupCommands();
             }
 
 
