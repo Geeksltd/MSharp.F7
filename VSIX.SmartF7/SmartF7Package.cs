@@ -54,8 +54,7 @@ namespace Geeks.GeeksProductivityTools
                 new Menus.Typescript(menuCommandService).SetupCommands();
                 new Menus.RunBatchFiles(menuCommandService).SetupCommands();
 
-                new Menus.OpenDomainFileFromMsharpDomain(menuCommandService).SetupCommands();
-                new Menus.OpenCshtmlFileFromUI(menuCommandService).SetupCommands();
+                new Menus.OpenRelatedFileF7(menuCommandService).SetupCommands();
             }
 
 

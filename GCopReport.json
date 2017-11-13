@@ -1,3 +1,11 @@
 {
-  "Items": []
+  "Items": [
+    {
+      "Analyzer": "IEnumerableMultipleEvaluationsAnalyzer",
+      "OccurrenceCount": 1,
+      "Exceptions": null,
+      "SentToServer": true,
+      "InstallationName": "MRZARIF-HP"
+    }
+  ]
 }
