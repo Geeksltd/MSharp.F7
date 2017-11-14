@@ -25,6 +25,10 @@ namespace Geeks.GeeksProductivityTools.Menus
             var menuItem = new OleMenuCommand(OpenRelatedFileMenuItemCallback, menuCommandID);
             menuItem.BeforeQueryStatus += OpenRelatedFileMenuItem_BeforeQueryStatus;
             Menu.AddCommand(menuItem);
+
+
+            var command = App.DTE.Commands.Item("EditorContextMenus.CodeWindow.GoToRelatedFile", -1);
+            command.Bindings = "Global::F7";
         }
 
         async void OpenRelatedFileMenuItemCallback(object sender, EventArgs e)
