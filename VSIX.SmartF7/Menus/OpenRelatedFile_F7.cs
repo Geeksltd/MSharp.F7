@@ -10,7 +10,7 @@ using EnvDTE;
 
 namespace Geeks.GeeksProductivityTools.Menus
 {
-    public class OpenRelatedFileF7 : OpenInMSharpHandler
+    public class OpenRelatedFileF7 
     {
         OleMenuCommandService Menu;
         string RelatedFilePath;
