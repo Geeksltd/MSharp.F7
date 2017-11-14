@@ -6,6 +6,13 @@
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "MRZARIF-HP"
+    },
+    {
+      "Analyzer": "LongMethodAnalyzer",
+      "OccurrenceCount": 1,
+      "Exceptions": null,
+      "SentToServer": true,
+      "InstallationName": "MRZARIF-HP"
     }
   ]
 }

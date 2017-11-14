@@ -48,12 +48,6 @@
       </Button>
     </Buttons>   
   </Commands>
-  <KeyBindings>
-    <KeyBinding guid="GuidOpenRelatedFileF7InVSCmdSet" id="CmdOpenRelatedFileF7ID"
-      editor="guidVSStd97"
-      key1="VK_F7" mod1="Control">
-    </KeyBinding>
-  </KeyBindings>
   <Symbols>
     <GuidSymbol name="guidGeeksProductivityToolsPkg" value="{c6176957-c61c-4beb-8dd8-e7c0170b0bf6}" />
     <GuidSymbol name="GuidCompileTsCmdSet" value="{b280ef5d-91d2-43b7-a482-224d04bcb2ef}">
