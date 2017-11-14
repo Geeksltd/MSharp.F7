@@ -8,21 +8,6 @@
   <Commands package="guidGeeksProductivityToolsPkg">
 
     <Groups>
-      <!-- Open in M# -->
-      <Group guid="GuidMSharpEditorCmdSet" id="MSharpCodeEditorsContextMenuGroup" priority="0x0000">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
-      </Group>
-      <Group guid="GuidMSharpEditorCmdSet" id="MSharpCodeEditorsContextMenuGroup" priority="0x0000">
-        <Parent guid="guidAspxMenuParent" id="cmidAspxMenu" />
-      </Group>
-      <Group guid="GuidMSharpEditorCmdSet" id="MSharpCodeEditorsContextMenuGroup" priority="0x0000">
-        <Parent guid="guidHtmlMenuParent" id="cmidHtmlMenu" />
-      </Group>
-      <!--/Open in M# -->
-
-      <Group guid="GuidOpenInMSharpSlnCmdSet" id="OpenInMSharpSlnCmdSetContextMenuGroup" priority="0x0001">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
-      </Group>
       <Group guid="GuidCompileTsCmdSet" id="CompileTypeScriptContextMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_WEBITEMNODE"/>
       </Group>
@@ -35,28 +20,12 @@
       </Group>
     </Groups>
     <Buttons>
-      <Button guid="GuidOpenInMSharpSlnCmdSet" id="cmdOpenInMSharpSln" priority="0x0100" type="Button">
-        <Parent guid="GuidOpenInMSharpSlnCmdSet" id="OpenInMSharpSlnCmdSetContextMenuGroup" />
-        <CommandFlag>DynamicVisibility</CommandFlag>
-        <Strings>
-          <CommandName>cmdOpenInMSharpSln</CommandName>
-          <ButtonText>Open in M#</ButtonText>
-        </Strings>
-      </Button>
       <Button guid="GuidRunBatchFileCmdSet" id="cmdRunBatchFile" priority="0x0100" type="Button">
         <Parent guid="GuidRunBatchFileCmdSet" id="RunBatchFileCmdSetContextMenuGroup" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <CommandName>cmdRunBatchFile</CommandName>
           <ButtonText>Run batch file</ButtonText>
-        </Strings>
-      </Button>
-      <Button guid="GuidMSharpEditorCmdSet" id="cmdOpenInMSharp" priority="0x0100" type="Button">
-        <Parent guid="GuidMSharpEditorCmdSet" id="MSharpCodeEditorsContextMenuGroup" />
-        <CommandFlag>DynamicVisibility</CommandFlag>
-        <Strings>
-          <CommandName>cmdOpenInMSharp</CommandName>
-          <ButtonText>Open in M#</ButtonText>
         </Strings>
       </Button>
       <Button guid="GuidCompileTsCmdSet" id="cmdCompileTsFiles" priority="0x0100" type="Button">
@@ -86,20 +55,10 @@
     </KeyBinding>
   </KeyBindings>
   <Symbols>
-    <GuidSymbol name="guidAspxMenuParent" value="{D7E8C5E1-BDB8-11D0-9C88-0000F8040A53}">
-      <IDSymbol name="cmidAspxMenu" value="0x035" />
-    </GuidSymbol>
-    <GuidSymbol name="guidHtmlMenuParent" value="{78F03954-2FB8-4087-8CE7-59D71710B3BB}">
-      <IDSymbol name="cmidHtmlMenu" value="0x01" />
-    </GuidSymbol>
     <GuidSymbol name="guidGeeksProductivityToolsPkg" value="{c6176957-c61c-4beb-8dd8-e7c0170b0bf6}" />
     <GuidSymbol name="GuidCompileTsCmdSet" value="{b280ef5d-91d2-43b7-a482-224d04bcb2ef}">
       <IDSymbol name="CompileTypeScriptContextMenuGroup" value="0x1020" />
       <IDSymbol name="cmdCompileTsFiles" value="0x010e" />
-    </GuidSymbol>
-    <GuidSymbol name="GuidMSharpEditorCmdSet" value="{5b066d90-2a03-4176-81cb-a88921683988}">
-      <IDSymbol name="MSharpCodeEditorsContextMenuGroup" value="0x1021" />
-      <IDSymbol name="cmdOpenInMSharp" value="0x0108" />
     </GuidSymbol>
     <GuidSymbol name="GuidRunBatchFileCmdSet" value="{af7f4c9e-13a9-4081-b87a-e5016ad1a301}">
       <IDSymbol name="RunBatchFileCmdSetContextMenuGroup" value="0x1022" />
@@ -108,11 +67,6 @@
     <GuidSymbol name="GuidTrimBlankLinesCmdSet" value="{9554734e-0c47-4173-96f0-466c505fc3cd}">
       <IDSymbol name="TrimBlankLinesCmdSetContextMenuGroup" value="0x1022" />
       <IDSymbol name="cmdTrimBlankLines" value="0x010b" />
-    </GuidSymbol>
-
-    <GuidSymbol name="GuidOpenInMSharpSlnCmdSet" value="{54fb8f31-e4d8-4258-a86d-5b35af2a6208}">
-      <IDSymbol name="OpenInMSharpSlnCmdSetContextMenuGroup" value="0x1024" />
-      <IDSymbol name="cmdOpenInMSharpSln" value="0x010f" />
     </GuidSymbol>
 
     <GuidSymbol name="GuidOpenRelatedFileF7InVSCmdSet" value="{53314338-EE24-4903-8106-A5F0FDFDC7BF}" >

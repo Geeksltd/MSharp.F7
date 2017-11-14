@@ -48,8 +48,6 @@ namespace Geeks.GeeksProductivityTools
                 //    menuCommand2.BeforeQueryStatus += MenuCommand2_BeforeQueryStatus;
                 //}
                 // Set up menu items
-                new Menus.OpenInMSharp.OpenInMSharpCodeWindow(menuCommandService).SetupCommands();
-                new Menus.OpenInMSharp.OpenInMSharpSolutionExplorer(menuCommandService).SetupCommands();
 
                 new Menus.Typescript(menuCommandService).SetupCommands();
                 new Menus.RunBatchFiles(menuCommandService).SetupCommands();

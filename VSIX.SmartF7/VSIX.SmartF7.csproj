@@ -334,10 +334,8 @@
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Menus\OpenRelatedFile_F7.cs" />
-    <Compile Include="Menus\OpenInMSharp\OpenInMSharpCodeWindow.cs" />
     <Compile Include="Menus\OpenInMSharp\OpenInMSharpExtensions.cs" />
     <Compile Include="Menus\OpenInMSharp\OpenInMSharpHandler.cs" />
-    <Compile Include="Menus\OpenInMSharp\OpenInMSharpSolutionExplorer.cs" />
     <Compile Include="Menus\RunBatchFiles.cs" />
     <Compile Include="Menus\Typescript.cs" />
     <Compile Include="OptionsPage.cs">
