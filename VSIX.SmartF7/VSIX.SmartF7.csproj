@@ -333,8 +333,7 @@
     <Compile Include="Extensions\Extentions.cs" />
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Menus\OpenDomainFileFromMsharpDomain.cs" />
-    <Compile Include="Menus\OpenCshtmlFileFromUI.cs" />
+    <Compile Include="Menus\OpenRelatedFile_F7.cs" />
     <Compile Include="Menus\OpenInMSharp\OpenInMSharpCodeWindow.cs" />
     <Compile Include="Menus\OpenInMSharp\OpenInMSharpExtensions.cs" />
     <Compile Include="Menus\OpenInMSharp\OpenInMSharpHandler.cs" />

@@ -8,7 +8,7 @@ namespace Geeks.GeeksProductivityTools.Menus.OpenInMSharp
     {
         internal static bool IsMvcFile(this string fileName) => fileName.ToUpper().EndsWithAny("CONTROLLER.CS", ".CSHTML");
 
-        internal static bool IsEntityFile(this string fileName) => fileName.ToUpper().EndsWith(".CS") && fileName.ContainsAny("\\@LOGIC\\", "\\LOGIC\\", "\\-LOGIC\\", "\\ENTITIES\\");
+        internal static bool IsEntityFile(this string fileName) => fileName.ToUpper().EndsWith(".CS") && fileName.ToUpper().ContainsAny("\\@LOGIC\\", "\\LOGIC\\", "\\-LOGIC\\", "\\ENTITIES\\");
 
         internal static bool IsWebFormsFile(this string fileName) => fileName.ToUpper().EndsWithAny("ASPX", "ASPX.CS", "ASCX", "ASCX.CS");
 
