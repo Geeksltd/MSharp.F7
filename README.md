@@ -17,8 +17,11 @@ This is a Visual Studio extension that can improve file navigation for certain p
 > For example from Website\Controllers\ViewCustomerControllers.cs   🡲   Website\Views\ViewCustomer.cshtml
 
 ## M# .NET Core
-- From an MC# file (meta definition) it will jump to the generated file (entity, module or page).
-> For example from @MSharp.Domain\Entities\Customer.cs   🡲   Domain\Entities\Customer.cs
+It will rotate between related between different files of an Entity type: 
+- @Model\Entities\Customer.cs
+- Domain\Entities\Customer.cs
+- Domain\Logic\Customer.cs
+
 
 ## Zebble for Xamarin
 It will switch between a .ZBL markup file and its C# codebehind.
