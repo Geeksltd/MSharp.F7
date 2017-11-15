@@ -8,8 +8,13 @@ F7 will rotate between:
 - Domain\Entities\Customer.cs
 - Domain\Logic\Customer.cs
 
+## M# MVC - page
+F7 will rotate between:  
+- @UI\Pages\GrandParent\Parent\SomePage.cs
+- Website\Controllers\Pages\GrantParent-Parent-SomePage.Controller.cs 
+- Website\Views\Pages\GrantParent-Parent-SomePage.cshtml 
 
-## M# MVC module (Form, list, ...)
+## M# MVC - module (Form, list, ...)
 
 ### With a single host page
 F7 will rotate between:  
