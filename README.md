@@ -1,9 +1,9 @@
 ## SmartF7: Instant File Switcher
 
-This is a Visual Studio extension that can improve file navigation for certain project types. When you press F7 it jumps to the sister file of the current file.
+This is a Visual Studio extension that can improve file navigation for certain project types. When you press F7 it jumps to the sister file of the current file. When there are multiple sister files, repeating F7 will keep rotating between the sisters.
 
 ## M# Entity type
-It will rotate between related between different files of an Entity type: 
+F7 will rotate between: 
 - @Model\Entities\Customer.cs
 - Domain\Entities\Customer.cs
 - Domain\Logic\Customer.cs
@@ -12,30 +12,32 @@ It will rotate between related between different files of an Entity type:
 ## M# MVC module (Form, list, ...)
 
 ### With a single host page
-It will rotate between related between different files of a module: 
+F7 will rotate between:  
 - @UI\Modules\Customer\CustomersList.cs
 - Website\Controllers\Pages\TheHostPage.Controller.cs 
 - Website\Views\Pages\TheHostPage.cshtml 
 
 ### With multiple host pages (shared module)
-It will rotate between related between different files of a module: 
+F7 will rotate between: 
 - @UI\Modules\Customer\CustomersList.cs
 - Website\Controllers\Modules\CustomersListController.cs 
 - Website\Views\Modules\CustomersList.cshtml
 
 ### View component
-If a module is set to be a ViewComponent, then it will rotate between the following files: 
+F7 will rotate between: 
 - @UI\Modules\Customer\CustomersList.cs
 - Website\Controllers\Modules\Components\CustomersList.cs 
 - Website\Views\Modules\Components\CustomersList\Default.cshtml
 
 
 
-## M# Web Forms
-- From an ASCX file, jumps to its code behind (and vice versa).
-> For example from Website\Modules\ViewCustomer.ascx   🡲   Website\Modules\ViewCustomer.ascx.cs
+## M# Web Forms (aspx & ascx)
+F7 will rotate between: 
+- Website\Modules\ViewCustomer.ascx
+- Website\Modules\ViewCustomer.ascx.cs
 
 
 ## Zebble for Xamarin
-It will switch between a .ZBL markup file and its C# codebehind.
-> For example from App.UI\Views\Modules\Customer.zbl   🡲   App.UI\Views\Modules\Customer.zbl.cs
+F7 will rotate between: 
+-App.UI\Views\Modules\Customer.zbl
+-App.UI\Views\Modules\Customer.zbl.cs
