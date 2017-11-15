@@ -1,6 +1,8 @@
 ## SmartF7: Instant File Switcher
 
-This is a Visual Studio extension that can improve file navigation for certain project types. When you press F7 it jumps to the sister file of the current file. When there are multiple sister files, repeating F7 will keep rotating between the sisters.
+This is a Visual Studio extension that can improve file navigation for certain project types. Often when you're working with code, for every concept there are multiple code files, which are effectively sister files all related to that concept.
+
+With this extension, pressing F7 will quickly jump switch to the sister files of the current file in Visual Studio. When there are multiple sister files, repeating F7 will keep rotating between the sisters.
 
 ## M# Entity type
 F7 will rotate between: 
