@@ -25,7 +25,7 @@ F7 will rotate between:
 - Website\Controllers\Pages\TheHostPage.Controller.cs 
 - Website\Views\Pages\TheHostPage.cshtml 
 
-Note: When an M# module is hosted on a single page only, it's effectively owned by that module. Therefore the module related code will be generated inside the page controller and view.
+>Note: When an M# module is hosted on a single page only, it's effectively owned by that module. Therefore the module related code will be generated inside the page controller and view.
 
 #### With multiple host pages (shared module)
 F7 will rotate between: 
