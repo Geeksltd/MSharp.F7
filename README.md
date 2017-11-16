@@ -12,9 +12,10 @@ F7 will rotate between:
 
 ## M# MVC - page
 F7 will rotate between:  
-- @UI\Pages\GrandParent\Parent\SomePage.cs
-- Website\Controllers\Pages\GrantParent-Parent-SomePage.Controller.cs 
-- Website\Views\Pages\GrantParent-Parent-SomePage.cshtml 
+- @UI\Pages\P1\P2\SomePage.cs
+- Website\Controllers\Pages\P1-P2--SomePage.Controller.cs 
+- Website\Views\Pages\P1P2SomePage.cshtml 
+
 
 ## M# MVC - module (Form, list, ...)
 
@@ -23,6 +24,8 @@ F7 will rotate between:
 - @UI\Modules\Customer\CustomersList.cs
 - Website\Controllers\Pages\TheHostPage.Controller.cs 
 - Website\Views\Pages\TheHostPage.cshtml 
+
+Note: When an M# module is hosted on a single page only, it's effectively owned by that module. Therefore the module related code will be generated inside the page controller and view.
 
 #### With multiple host pages (shared module)
 F7 will rotate between: 
