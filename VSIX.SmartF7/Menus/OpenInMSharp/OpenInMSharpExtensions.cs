@@ -6,7 +6,7 @@ namespace Geeks.GeeksProductivityTools.Menus.OpenInMSharp
 {
     internal static class FileTypeDetector
     {
-        internal static bool IsMvcFile(this string fileName) => fileName.ToUpper().EndsWithAny("CONTROLLER.CS", ".CSHTML");
+        internal static bool IsMvcFile(this string fileName) => fileName.ToUpper().EndsWithAny(".CS", ".CSHTML") && fileName.ToUpper().ContainsAny(@"@M#\@UI\PAGES\", @"WEBSITE\CONTROLLERS\PAGES\", @"WEBSITE\VIEWS\PAGES\");
 
         internal static bool IsEntityFile(this string fileName) => fileName.ToUpper().EndsWith(".CS") && fileName.ToUpper().ContainsAny("\\@LOGIC\\", "\\LOGIC\\", "\\-LOGIC\\", "\\ENTITIES\\");
 
