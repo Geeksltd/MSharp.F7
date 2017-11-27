@@ -6,9 +6,9 @@ With this extension, pressing F7 will quickly jump switch to the sister files of
 
 ## M# Entity type
 F7 will rotate between: 
-- @Model\Entities\Customer.cs
+- @Model\{namespace}\Customer.cs
 - Domain\Entities\Customer.cs
-- Domain\Logic\Customer.cs
+- Domain\-Logic\Customer.cs
 
 ## M# MVC - page
 F7 will rotate between:  
