@@ -13,6 +13,13 @@
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "MRZARIF-HP"
+    },
+    {
+      "Analyzer": "UseIsToCompareTypeAnalyzer",
+      "OccurrenceCount": 2,
+      "Exceptions": null,
+      "SentToServer": true,
+      "InstallationName": "MRZARIF-HP"
     }
   ]
 }
