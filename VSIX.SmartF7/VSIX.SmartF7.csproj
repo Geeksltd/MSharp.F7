@@ -352,6 +352,7 @@
     <Compile Include="Settings\TypescriptSettings.cs" />
     <Compile Include="Structures\Gadget.cs" />
     <Compile Include="Structures\MSharpProject.cs" />
+    <Compile Include="ToggleHandler\Toolbox.cs" />
     <Compile Include="Typescript\FileParser.cs" />
     <Compile Include="Typescript\TypescriptCompiler.cs" />
     <Compile Include="Typescript\TypeScriptHelper.cs" />
@@ -421,6 +422,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>

@@ -18,6 +18,9 @@
       <Group guid="GuidOpenRelatedFileF7InVSCmdSet" id="OpenRelatedFileInVSCmdSetContextMenuGroup"  priority="0x0001">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
       </Group>
+      <Group guid="GuidOpenRelatedFileF7InVSCmdSet" id="OpenRelatedFileInVSCmdSetContextMenuGroup"  priority="0x0001">
+        <Parent guid="guidHtmlMenuParent" id="cmidHtmlMenu"/>
+      </Group>
     </Groups>
     <Buttons>
       <Button guid="GuidRunBatchFileCmdSet" id="cmdRunBatchFile" priority="0x0100" type="Button">
@@ -67,5 +70,10 @@
       <IDSymbol name="OpenRelatedFileInVSCmdSetContextMenuGroup" value="0x1023"/>
       <IDSymbol name="CmdOpenRelatedFileF7ID" value="0x10b"/>
     </GuidSymbol>
+
+    <GuidSymbol name="guidHtmlMenuParent" value="{78F03954-2FB8-4087-8CE7-59D71710B3BB}">
+      <IDSymbol name="cmidHtmlMenu" value="0x01" />
+    </GuidSymbol>
+
   </Symbols>
 </CommandTable>
