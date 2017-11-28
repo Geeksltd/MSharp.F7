@@ -26,7 +26,6 @@ namespace Geeks.SmartF7.ToggleHandler
             foreach (ProjectItem item in projectItems)
             {
                 yield return item;
-
                 if (item.SubProject != null)
                 {
                     foreach (ProjectItem childItem in GetProjectItems(item.SubProject.ProjectItems))
@@ -38,13 +37,12 @@ namespace Geeks.SmartF7.ToggleHandler
                         yield return childItem;
                 }
             }
-
         }
         //----mvc pages--------------
         public static string GetMvcPageNameOfUIPage(this ProjectItem uiPageItem)
         {
             var nameSpace = uiPageItem.FileCodeModel.CodeElements.OfType<CodeElement>().SingleOrDefault(d => d.Kind == vsCMElement.vsCMElementNamespace).Name;
-            return nameSpace.Remove("Root").Remove(".") + uiPageItem.Name + "html";
+            return nameSpace.Remove("Root").Remove(".").Remove("_") + uiPageItem.Name + "html";
         }
 
         public static string GetMvcControllerOfUIPage(this Document uiPageDoc)
@@ -69,11 +67,20 @@ namespace Geeks.SmartF7.ToggleHandler
 
         public static bool IsMvcUIPage(this Document document) => document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains("\\@UI\\PAGES\\");
 
-        public static bool IsMvcWebController(this Document document) => document.Name.ToUpper().EndsWith(".CONTROLLER.CS") && document.FullName.ToUpper().Contains("\\WEBSITE\\CONTROLLERS\\PAGES\\");
+        public static bool IsMvcWebController(this Document document)
+        {
+            return document.Name.ToUpper().EndsWith(".CONTROLLER.CS") && document.FullName.ToUpper().Contains("\\WEBSITE\\CONTROLLERS\\PAGES\\");
+        }
 
-        public static bool IsMvcWebView(this Document document) => document.Name.ToUpper().EndsWith(".CSHTML") && document.FullName.ToUpper().Contains("\\WEBSITE\\VIEWS\\PAGES\\");
+        public static bool IsMvcWebView(this Document document)
+        {
+            return document.Name.ToUpper().EndsWith(".CSHTML") && document.FullName.ToUpper().Contains("\\WEBSITE\\VIEWS\\PAGES\\");
+        }
 
-        internal static bool IsMvcFile(this Document document) => document.Name.ToUpper().EndsWithAny(".CS", ".CSHTML") && document.FullName.ToUpper().ContainsAny(@"@M#\@UI\PAGES\", @"WEBSITE\CONTROLLERS\PAGES\", @"WEBSITE\VIEWS\PAGES\");
+        internal static bool IsMvcFile(this Document document)
+        {
+            return document.Name.ToUpper().EndsWithAny(".CS", ".CSHTML") && document.FullName.ToUpper().ContainsAny(@"@M#\@UI\PAGES\", @"WEBSITE\CONTROLLERS\PAGES\", @"WEBSITE\VIEWS\PAGES\");
+        }
         //---------Modules------------
         internal static bool IsModuleFile(this Document document)
         {
@@ -142,9 +149,15 @@ namespace Geeks.SmartF7.ToggleHandler
             return false;
         }
 
-        internal static bool IsModuleOfWebCtrlModule(this Document document) => document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"WEBSITE\CONTROLLERS\MODULES\");
+        internal static bool IsModuleOfWebCtrlModule(this Document document)
+        {
+            return document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"WEBSITE\CONTROLLERS\MODULES\");
+        }
 
-        internal static bool IsModuleOfWebVeiwModule(this Document document) => document.Name.ToUpper().EndsWith(".CSHTML") && document.FullName.ToUpper().Contains(@"WEBSITE\VIEWS\MODULES\");
+        internal static bool IsModuleOfWebVeiwModule(this Document document)
+        {
+            return document.Name.ToUpper().EndsWith(".CSHTML") && document.FullName.ToUpper().Contains(@"WEBSITE\VIEWS\MODULES\");
+        }
 
         internal static string GetModuleOfUI(this Document document)
         {
@@ -169,7 +182,8 @@ namespace Geeks.SmartF7.ToggleHandler
             var foundFile = pageFolder.ProjectItems.GetProjectItems().FirstOrDefault(i => i.Name.ToUpper().EndsWith(".CS") && i.Name.Replace("Controller.cs", "cshtml").Remove("-").ToUpper() == document.Name.ToUpper());
             var nameSpaceNum = foundFile.FileCodeModel.CodeElements.OfType<CodeElement>().FirstOrDefault(p => p.Kind == vsCMElement.vsCMElementNamespace && p.Name == "ViewModel");
             var className = nameSpaceNum.Children.OfType<CodeElement>().FirstOrDefault(c => c.Kind == vsCMElement.vsCMElementClass).Name;
-            var moduleFile = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@UI").ProjectItems.Item("Modules").ProjectItems.GetProjectItems().FirstOrDefault(m => m.Name.ToUpper().Remove(".CS") == className.ToUpper());
+            var moduleFile = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@UI")
+                .ProjectItems.Item("Modules").ProjectItems.GetProjectItems().FirstOrDefault(m => m.Name.ToUpper().Remove(".CS") == className.ToUpper());
             return moduleFile.FileNames[0];
         }
 
@@ -209,9 +223,15 @@ namespace Geeks.SmartF7.ToggleHandler
             return false;
         }
 
-        internal static bool IsComponentOfWebCtrl(this Document document) => document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"WEBSITE\CONTROLLERS\MODULES\COMPONENTS\");
+        internal static bool IsComponentOfWebCtrl(this Document document)
+        {
+            return document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"WEBSITE\CONTROLLERS\MODULES\COMPONENTS\");
+        }
 
-        internal static bool IsComponentOfWebView(this Document document) => document.Name.ToUpper().EndsWith(".CSHTML") && document.FullName.ToUpper().Contains(@"WEBSITE\VIEWS\MODULES\COMPONENTS\");
+        internal static bool IsComponentOfWebView(this Document document)
+        {
+            return document.Name.ToUpper().EndsWith(".CSHTML") && document.FullName.ToUpper().Contains(@"WEBSITE\VIEWS\MODULES\COMPONENTS\");
+        }
 
         internal static string GetComponentFromUI(this Document document)
         {
@@ -234,7 +254,10 @@ namespace Geeks.SmartF7.ToggleHandler
         }
 
         //-------Entities----------------
-        internal static bool IsEntityFile(this Document document) => document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().ContainsAny("@MODEL\\", "DOMAIN\\-LOGIC\\", "DOMAIN\\ENTITIES\\");
+        internal static bool IsEntityFile(this Document document)
+        {
+            return document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().ContainsAny("@MODEL\\", "DOMAIN\\-LOGIC\\", "DOMAIN\\ENTITIES\\");
+        }
 
         internal static bool IsEntityOfModel(this Document document)
         {
@@ -270,7 +293,6 @@ namespace Geeks.SmartF7.ToggleHandler
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
                 if (domainProj.ProjectItems.Item("-Entities").ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
                     return true;
-                
             }
             return false;
         }
