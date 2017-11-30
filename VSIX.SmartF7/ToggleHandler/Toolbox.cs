@@ -47,9 +47,12 @@ namespace Geeks.SmartF7.ToggleHandler
 
         public static string GetMvcControllerOfUIPage(this Document uiPageDoc)
         {
-            var nameSpace = uiPageDoc.ProjectItem.FileCodeModel.CodeElements.OfType<CodeElement>().SingleOrDefault(d => d.Kind == vsCMElement.vsCMElementNamespace).Name;
-            var fileName = (nameSpace.Replace(".","-") + "-" + uiPageDoc.ProjectItem.Name.Replace(".cs", ".Controller.cs")).Remove("Root-");
-            return App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p=> p.Name.ToUpper() == "WEBSITE").ProjectItems.Item("Controllers").ProjectItems.Item("Pages").FileNames[0] + @"\" + fileName;
+            var curNameSpace = App.DTE.ActiveDocument.ProjectItem.FileCodeModel.CodeElements.OfType<CodeElement>().FirstOrDefault(c => c.Kind == vsCMElement.vsCMElementNamespace);
+            var curClassName = curNameSpace.Children.OfType<CodeElement>().FirstOrDefault(c => c.Kind == vsCMElement.vsCMElementClass);
+            var controllerClassName = (curNameSpace.Name.Remove("Root") + curClassName.Name).Remove(".").Remove("_").Replace("Page", "Controller").ToUpper();
+            var controlerPageFolder = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "WEBSITE").ProjectItems.Item("Controllers").ProjectItems.Item("Pages");
+            var cntrlFileName = controlerPageFolder.ProjectItems.GetProjectItems().FirstOrDefault(i => i.Name.ToUpper().EndsWith(".CS") && i.FileCodeModel.CodeElements.OfType<CodeElement>().Any(n => n.Kind == vsCMElement.vsCMElementNamespace && n.Name == "Controllers" && n.Children.OfType<CodeElement>().Any(c => c.Kind == vsCMElement.vsCMElementClass && c.Name.ToUpper() == controllerClassName)));
+            return cntrlFileName.FileNames[0];
         }
 
         public static string GetMvcPageOfWebController(this Document webControlerDoc)

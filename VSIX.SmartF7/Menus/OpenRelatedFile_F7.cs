@@ -54,36 +54,47 @@ namespace Geeks.GeeksProductivityTools.Menus
             {
                 if (null != cmd)
                     if (currentDocument.IsEntityFile())
+                    {
                         if (NextEntityFilePath(currentDocument))
                         {
                             cmd.Visible = true;
                             cmd.Text = "Go To Related Entity File";
                             State = PageOrModule.None;
                         }
-                        else if (currentDocument.IsComponentFile())
-                            if (NextComponentFilePath(currentDocument))
-                            {
-                                cmd.Visible = true;
-                                cmd.Text = "Go To Related Component File";
-                                State = PageOrModule.None;
-                            }
-                            else if (State == PageOrModule.Page && currentDocument.IsModuleOfWebCtrlPage() && currentDocument.IsMvcWebController())
-                                if (NextMvcFilePath(App.DTE.ActiveDocument)) { cmd.Visible = true; cmd.Text = "Go To Related MVC Page"; }
-                                else if (State == PageOrModule.Page && currentDocument.IsModuleOfWebViewPage() && currentDocument.IsMvcWebView())
-                                    if (NextMvcFilePath(App.DTE.ActiveDocument)) { cmd.Visible = true; cmd.Text = "Go To Related MVC Page"; }
-                                    else if (currentDocument.IsModuleFile())
-                                        if (NextModuleFilePath(currentDocument))
-                                        {
-                                            cmd.Visible = true;
-                                            cmd.Text = "Go To Related Module File";
-                                            State = PageOrModule.None;
-                                        }
-                                        else if (currentDocument.IsMvcFile())
-                                            if (NextMvcFilePath(App.DTE.ActiveDocument))
-                                            {
-                                                cmd.Visible = true;
-                                                cmd.Text = "Go To Related MVC Page";
-                                            }
+                    }
+                    else if (currentDocument.IsComponentFile())
+                    {
+                        if (NextComponentFilePath(currentDocument))
+                        {
+                            cmd.Visible = true;
+                            cmd.Text = "Go To Related Component File";
+                            State = PageOrModule.None;
+                        }
+                    }
+                    else if (State == PageOrModule.Page && currentDocument.IsModuleOfWebCtrlPage() && currentDocument.IsMvcWebController())
+                    {
+                        if (NextMvcFilePath(App.DTE.ActiveDocument))
+                        { cmd.Visible = true; cmd.Text = "Go To Related MVC Page"; }
+                    }
+                    else if (State == PageOrModule.Page && currentDocument.IsModuleOfWebViewPage() && currentDocument.IsMvcWebView())
+                    {
+                        if (NextMvcFilePath(App.DTE.ActiveDocument)) { cmd.Visible = true; cmd.Text = "Go To Related MVC Page"; }
+                    }
+                    else if (currentDocument.IsModuleFile())
+                    {
+                        if (NextModuleFilePath(currentDocument))
+                        {
+                            cmd.Visible = true;
+                            cmd.Text = "Go To Related Module File";
+                            State = PageOrModule.None;
+                        }
+                    }
+                    else if (currentDocument.IsMvcFile())
+                        if (NextMvcFilePath(App.DTE.ActiveDocument))
+                        {
+                            cmd.Visible = true;
+                            cmd.Text = "Go To Related MVC Page";
+                        }
             }
             catch (Exception ex)
             {
