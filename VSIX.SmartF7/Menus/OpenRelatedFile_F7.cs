@@ -1,13 +1,10 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using Microsoft.VisualStudio.Shell;
+﻿using EnvDTE;
 using Geeks.GeeksProductivityTools.Menus.OpenInMSharp;
-using System.Windows;
-using System.Linq;
-using EnvDTE80;
-using EnvDTE;
 using Geeks.SmartF7.ToggleHandler;
+using Microsoft.VisualStudio.Shell;
+using System;
+using System.ComponentModel.Design;
+using System.Windows;
 
 namespace Geeks.GeeksProductivityTools.Menus
 {
@@ -33,7 +30,7 @@ namespace Geeks.GeeksProductivityTools.Menus
             command.Bindings = "Global::F7";
         }
 
-        private void OpenRelatedFileMenuItemCallback(object sender, EventArgs e)
+        void OpenRelatedFileMenuItemCallback(object sender, EventArgs e)
         {
             try
             {
@@ -102,27 +99,30 @@ namespace Geeks.GeeksProductivityTools.Menus
             }
         }
 
-        private bool NextEntityFilePath(Document curDocument)
+        bool NextEntityFilePath(Document curDocument)
         {
             if (curDocument.IsEntityOfModel())
             {
                 RelatedFilePath = curDocument.GetEntityFromModel();
                 return true;
             }
+
             if (curDocument.IsEntityOfDomainEntity())
             {
                 RelatedFilePath = curDocument.GetEntityFromDomainEntity();
                 return true;
             }
+
             if (curDocument.IsEntityOfDomainLogic())
             {
                 RelatedFilePath = curDocument.GetEntityFromDomainLogic();
                 return true;
             }
+
             return false;
         }
 
-        private bool NextComponentFilePath(Document curDocument)
+        bool NextComponentFilePath(Document curDocument)
         {
             if (curDocument.IsComponentOfUI())
             {
@@ -139,10 +139,11 @@ namespace Geeks.GeeksProductivityTools.Menus
                 RelatedFilePath = curDocument.GetComponentFromView();
                 return true;
             }
+
             return false;
         }
 
-        private bool NextModuleFilePath(Document curDocument)
+        bool NextModuleFilePath(Document curDocument)
         {
             if (curDocument.IsModuleOfUI())
             {
@@ -170,10 +171,11 @@ namespace Geeks.GeeksProductivityTools.Menus
                 RelatedFilePath = curDocument.GetModuleOfWebViewPage();
                 return true;
             }
+
             return false;
         }
 
-        private bool NextMvcFilePath(Document curDocument)
+        bool NextMvcFilePath(Document curDocument)
         {
             if (curDocument.IsMvcUIPage())
             {
@@ -191,9 +193,8 @@ namespace Geeks.GeeksProductivityTools.Menus
                 RelatedFilePath = curDocument.GetMvcPageOfWebView();
                 return true;
             }
+
             return false;
         }
-
-
     }
 }

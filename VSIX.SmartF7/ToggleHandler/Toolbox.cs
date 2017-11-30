@@ -1,10 +1,8 @@
-﻿using System;
+﻿using EnvDTE;
+using Geeks.GeeksProductivityTools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EnvDTE;
-using Geeks.GeeksProductivityTools;
 
 namespace Geeks.SmartF7.ToggleHandler
 {
@@ -38,7 +36,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 }
             }
         }
-        //----mvc pages--------------
+        // ----mvc pages--------------
         public static string GetMvcPageNameOfUIPage(this ProjectItem uiPageItem)
         {
             var nameSpace = uiPageItem.FileCodeModel.CodeElements.OfType<CodeElement>().SingleOrDefault(d => d.Kind == vsCMElement.vsCMElementNamespace).Name;
@@ -84,19 +82,19 @@ namespace Geeks.SmartF7.ToggleHandler
         {
             return document.Name.ToUpper().EndsWithAny(".CS", ".CSHTML") && document.FullName.ToUpper().ContainsAny(@"@M#\@UI\PAGES\", @"WEBSITE\CONTROLLERS\PAGES\", @"WEBSITE\VIEWS\PAGES\");
         }
-        //---------Modules------------
+        // ---------Modules------------
         internal static bool IsModuleFile(this Document document)
         {
             var docName = document.FullName.ToUpper();
 
-            if (docName.EndsWithAny(".CS", ".CSHTML") )
+            if (docName.EndsWithAny(".CS", ".CSHTML"))
             {
                 if (docName.Contains("\\MODULES\\") && !docName.Contains("\\COMPONENTS\\"))
                 {
                     var compFolder = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "WEBSITE").ProjectItems.Item("Controllers").ProjectItems.Item("Modules").ProjectItems.Item("Components");
                     var fileNum = compFolder.ProjectItems.GetProjectItems().Count(i => i.Name.ToUpper().EndsWith(".CS") && i.Name.ToUpper() == document.Name.ToUpper());
                     return fileNum == 0;
-                    //return true;
+                    // return true;
                 }
                 else if (docName.EndsWith(".CS") && docName.Contains(@"WEBSITE\CONTROLLERS\PAGES\"))
                 {
@@ -125,6 +123,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 var fileNum = compFolder.ProjectItems.GetProjectItems().Count(i => i.Name.ToUpper().EndsWith(".CS") && i.Name.ToUpper() == document.Name.ToUpper());
                 return fileNum == 0;
             }
+
             return false;
         }
 
@@ -136,6 +135,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 var nameSpaceNum = document.ProjectItem.FileCodeModel.CodeElements.OfType<CodeElement>().Count(p => p.Kind == vsCMElement.vsCMElementNamespace && p.Name == "ViewModel");
                 return nameSpaceNum > 0;
             }
+
             return false;
         }
 
@@ -149,6 +149,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 var nameSpaceNum = foundFile.FileCodeModel.CodeElements.OfType<CodeElement>().Count(p => p.Kind == vsCMElement.vsCMElementNamespace && p.Name == "ViewModel");
                 return nameSpaceNum > 0;
             }
+
             return false;
         }
 
@@ -172,6 +173,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 moduleFile = clsFiles.FirstOrDefault(c => c.FileCodeModel.CodeElements.OfType<CodeElement>().Count(el => el.Kind == vsCMElement.vsCMElementNamespace && el.Name == "ViewModel"
                 && el.Children.OfType<CodeElement>().Count(cl => cl.Kind == vsCMElement.vsCMElementClass && cl.Name.ToUpper() == document.Name.ToUpper().Remove(".CS")) > 0) > 0);
             }
+
             return moduleFile.FileNames[0];
         }
 
@@ -197,7 +199,7 @@ namespace Geeks.SmartF7.ToggleHandler
             return moduleFile.FileNames[0];
         }
 
-        //--------Components----------
+        // --------Components----------
         internal static bool IsComponentFile(this Document document)
         {
             var docName = document.FullName.ToUpper();
@@ -211,6 +213,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 var fileNum = compFolder.ProjectItems.GetProjectItems().Count(i => i.Name.ToUpper().EndsWith(".CS") && i.Name.ToUpper() == document.Name.ToUpper());
                 return fileNum > 0;
             }
+
             return false;
         }
 
@@ -223,6 +226,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 var fileNum = compFolder.ProjectItems.GetProjectItems().Count(i => i.Name.ToUpper().EndsWith(".CS") && i.Name.ToUpper() == document.Name.ToUpper());
                 return fileNum > 0;
             }
+
             return false;
         }
 
@@ -256,7 +260,7 @@ namespace Geeks.SmartF7.ToggleHandler
             return fileItem.FileNames[0];
         }
 
-        //-------Entities----------------
+        // -------Entities----------------
         internal static bool IsEntityFile(this Document document)
         {
             return document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().ContainsAny("@MODEL\\", "DOMAIN\\-LOGIC\\", "DOMAIN\\ENTITIES\\");
@@ -269,12 +273,13 @@ namespace Geeks.SmartF7.ToggleHandler
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
                 return domainProj.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper());
             }
+
             return false;
         }
 
         internal static bool IsEntityOfDomainEntity(this Document document)
         {
-            if(document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"DOMAIN\ENTITIES\"))
+            if (document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"DOMAIN\ENTITIES\"))
             {
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
                 if (domainProj.ProjectItems.Item("-Logic").ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
@@ -283,6 +288,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 if (modelProj.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
                     return true;
             }
+
             return false;
         }
 
@@ -297,6 +303,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 if (domainProj.ProjectItems.Item("-Entities").ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
                     return true;
             }
+
             return false;
         }
 
@@ -308,6 +315,7 @@ namespace Geeks.SmartF7.ToggleHandler
             {
                 entityFile = domainProj.ProjectItems.Item("-Logic").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             }
+
             return entityFile.FileNames[0];
         }
 
@@ -319,6 +327,7 @@ namespace Geeks.SmartF7.ToggleHandler
             {
                 entityFile = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@MODEL").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             }
+
             return entityFile.FileNames[0];
         }
 
@@ -330,6 +339,7 @@ namespace Geeks.SmartF7.ToggleHandler
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
                 entityFile = domainProj.ProjectItems.Item("Entities").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             }
+
             return entityFile.FileNames[0];
         }
     }
