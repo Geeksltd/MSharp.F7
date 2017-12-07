@@ -293,7 +293,22 @@ namespace Geeks.SmartF7.ToggleHandler
         // -------Entities----------------
         internal static bool IsEntityFile(this Document document)
         {
-            return document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().ContainsAny("@MODEL\\", "DOMAIN\\LOGIC\\", "DOMAIN\\[GEN-ENTITIES]\\");
+            if (document.Name.ToUpper().EndsWith(".CS"))
+            {
+                if (document.FullName.ToUpper().Contains("@MODEL\\"))
+                {
+                    return true;
+                }
+                if (document.FullName.ToUpper().Contains("DOMAIN\\") && document.FullName.ToUpper().Contains("LOGIC"))
+                {
+                    return true;
+                }
+                if (document.FullName.ToUpper().Contains("DOMAIN\\") && document.FullName.ToUpper().Contains("ENTITIES"))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         internal static bool IsEntityOfModel(this Document document)
@@ -309,10 +324,11 @@ namespace Geeks.SmartF7.ToggleHandler
 
         internal static bool IsEntityOfDomainEntity(this Document document)
         {
-            if (document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"DOMAIN\[GEN-ENTITIES]\"))
+            if (document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"DOMAIN\") && document.FullName.ToUpper().Contains("ENTITIES"))
             {
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
-                if (domainProj.ProjectItems.Item("Logic").ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
+                var logicFolder = domainProj.ProjectItems.GetProjectItems().FirstOrDefault(f => !f.Name.Contains(".") && f.Name.ToUpper().Contains("LOGIC"));
+                if (logicFolder.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
                     return true;
                 var modelProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@MODEL");
                 if (modelProj.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
@@ -324,13 +340,14 @@ namespace Geeks.SmartF7.ToggleHandler
 
         internal static bool IsEntityOfDomainLogic(this Document document)
         {
-            if (document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"DOMAIN\LOGIC\"))
+            if (document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"DOMAIN\") && document.FullName.ToUpper().Contains("LOGIC"))
             {
                 var modelProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@MODEL");
                 if (modelProj.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
                     return true;
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
-                if (domainProj.ProjectItems.Item("[GEN-Entities]").ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
+                var entityFolder = domainProj.ProjectItems.GetProjectItems().FirstOrDefault(f => !f.Name.Contains(".") && f.Name.ToUpper().Contains("ENTITIES"));
+                if (entityFolder.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
                     return true;
             }
 
@@ -340,10 +357,12 @@ namespace Geeks.SmartF7.ToggleHandler
         internal static string GetEntityFromModel(this Document document)
         {
             var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
-            var entityFile = domainProj.ProjectItems.Item("[GEN-Entities]").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
+            var entityFolder = domainProj.ProjectItems.GetProjectItems().FirstOrDefault(f => !f.Name.Contains(".") && f.Name.ToUpper().Contains("ENTITIES"));
+            var entityFile = entityFolder.ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             if (entityFile == null)
             {
-                entityFile = domainProj.ProjectItems.Item("Logic").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
+                var logicFolder = domainProj.ProjectItems.GetProjectItems().FirstOrDefault(f => !f.Name.Contains(".") && f.Name.ToUpper().Contains("LOGIC"));
+                entityFile = logicFolder.ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             }
 
             return entityFile.FileNames[0];
@@ -352,7 +371,8 @@ namespace Geeks.SmartF7.ToggleHandler
         internal static string GetEntityFromDomainEntity(this Document document)
         {
             var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
-            var entityFile = domainProj.ProjectItems.Item("Logic").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
+            var logicFolder = domainProj.ProjectItems.GetProjectItems().FirstOrDefault(f => !f.Name.Contains(".") && f.Name.ToUpper().Contains("LOGIC"));
+            var entityFile = logicFolder.ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             if (entityFile == null)
             {
                 entityFile = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@MODEL").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
@@ -367,7 +387,8 @@ namespace Geeks.SmartF7.ToggleHandler
             if (entityFile == null)
             {
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
-                entityFile = domainProj.ProjectItems.Item("[GEN-Entities]").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
+                var entityFolder = domainProj.ProjectItems.GetProjectItems().FirstOrDefault(f => !f.Name.Contains(".") && f.Name.ToUpper().Contains("ENTITIES"));
+                entityFile = entityFolder.ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             }
 
             return entityFile.FileNames[0];
