@@ -1,8 +1,8 @@
-﻿using EnvDTE;
-using Geeks.GeeksProductivityTools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EnvDTE;
+using Geeks.GeeksProductivityTools;
 
 namespace Geeks.SmartF7.ToggleHandler
 {
@@ -11,8 +11,7 @@ namespace Geeks.SmartF7.ToggleHandler
         public static bool ContainsAny(this string str, params string[] subStrings)
         {
             foreach (var subString in subStrings)
-                if (str.Contains(subString))
-                    return true;
+                if (str.Contains(subString)) return true;
 
             return false;
         }
@@ -37,19 +36,20 @@ namespace Geeks.SmartF7.ToggleHandler
         // ----mvc pages--------------
         public static string GetMvcPageNameOfUIPage(this ProjectItem uiPageItem)
         {
-            string nameSpaceName = "";
+            var nameSpaceName = "";
             var nameSpace = uiPageItem.FileCodeModel.CodeElements.OfType<CodeElement>().SingleOrDefault(d => d.Kind == vsCMElement.vsCMElementNamespace);
             if (nameSpace != null)
             {
                 nameSpaceName = nameSpace.Name;
             }
+
             return nameSpaceName.Remove("Root").Remove(".").Remove("_") + uiPageItem.Name + "html";
         }
 
         public static string GetMvcControllerOfUIPage(this Document document)
         {
-            string curNameSpaceName = "";
-            string curClassName = "";
+            var curNameSpaceName = "";
+            var curClassName = "";
 
             var curNameSpace = document.ProjectItem.FileCodeModel.CodeElements.OfType<CodeElement>().FirstOrDefault(c => c.Kind == vsCMElement.vsCMElementNamespace);
             if (curNameSpace != null)
@@ -61,6 +61,7 @@ namespace Geeks.SmartF7.ToggleHandler
             {
                 curClassName = document.ProjectItem.FileCodeModel.CodeElements.OfType<CodeElement>().FirstOrDefault(c => c.Kind == vsCMElement.vsCMElementClass).Name;
             }
+
             var controllerClassName = (curNameSpaceName.Remove("Root") + curClassName).Remove(".").Remove("_").Replace("Page", "Controller").ToUpper();
             var controlerPageFolder = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "WEBSITE").ProjectItems.Item("Controllers").ProjectItems.Item("Pages");
             var cntrlFileName = controlerPageFolder.ProjectItems.GetProjectItems().FirstOrDefault(i => i.Name.ToUpper().EndsWith(".CS") && i.FileCodeModel.CodeElements.OfType<CodeElement>().Any(n => n.Kind == vsCMElement.vsCMElementNamespace && n.Name == "Controllers" && n.Children.OfType<CodeElement>().Any(c => c.Kind == vsCMElement.vsCMElementClass && c.Name.ToUpper() == controllerClassName)));
@@ -299,15 +300,18 @@ namespace Geeks.SmartF7.ToggleHandler
                 {
                     return true;
                 }
+
                 if (document.FullName.ToUpper().Contains("DOMAIN\\") && document.FullName.ToUpper().Contains("LOGIC"))
                 {
                     return true;
                 }
+
                 if (document.FullName.ToUpper().Contains("DOMAIN\\") && document.FullName.ToUpper().Contains("ENTITIES"))
                 {
                     return true;
                 }
             }
+
             return false;
         }
 

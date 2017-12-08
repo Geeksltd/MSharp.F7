@@ -1,10 +1,8 @@
 using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
-using EnvDTE80;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
-using System.Linq;
 
 namespace Geeks.GeeksProductivityTools
 {
@@ -32,21 +30,21 @@ namespace Geeks.GeeksProductivityTools
 
             Instance = this;
 
-            var componentModel = (IComponentModel)this.GetService(typeof(SComponentModel));
+            var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             var menuCommandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
 
             if (null != menuCommandService)
             {
-                //var mainMenu = new CommandID(GuidList.GuidGeeksProductivityToolsCmdSet, (int)PkgCmdIDList.CmdidMainMenu);
-                //var founded = menuCommandService.FindCommand(mainMenu);
-                //if (founded == null)
-                //{
+                // var mainMenu = new CommandID(GuidList.GuidGeeksProductivityToolsCmdSet, (int)PkgCmdIDList.CmdidMainMenu);
+                // var founded = menuCommandService.FindCommand(mainMenu);
+                // if (founded == null)
+                // {
                 //    var menuCommand2 = new OleMenuCommand(null, mainMenu);
                 //    menuCommandService.AddCommand(menuCommand2);
                 //    menuCommand2.BeforeQueryStatus += MenuCommand2_BeforeQueryStatus;
-                //}
+                // }
                 // Set up menu items
 
                 new Menus.Typescript(menuCommandService).SetupCommands();
@@ -55,7 +53,6 @@ namespace Geeks.GeeksProductivityTools
                 new Menus.OpenRelatedFileF7(menuCommandService).SetupCommands();
             }
 
-
             // Hook up event handlers
             events = App.DTE.Events;
             docEvents = events.DocumentEvents;
@@ -63,11 +60,11 @@ namespace Geeks.GeeksProductivityTools
             docEvents.DocumentSaved += DocumentEvents_DocumentSaved;
             solEvents.Opened += delegate { App.Initialize(GetDialogPage(typeof(OptionsPage)) as OptionsPage); };
         }
-        //private void MenuCommand2_BeforeQueryStatus(object sender, EventArgs e)
-        //{
+        // private void MenuCommand2_BeforeQueryStatus(object sender, EventArgs e)
+        // {
 
         //    var cmd = sender as OleMenuCommand;
-        //}
+        // }
 
         void DocumentEvents_DocumentSaved(EnvDTE.Document document)
         {
@@ -87,7 +84,6 @@ namespace Geeks.GeeksProductivityTools
             }
             catch
             {
-
             }
         }
     }

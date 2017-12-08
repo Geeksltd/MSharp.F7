@@ -18,8 +18,8 @@ namespace Geeks.GeeksProductivityTools.Menus
 
         public void SetupCommands()
         {
-            CommandID menuCommandID = new CommandID(GuidList.GuidCompileTsCmdSet, (int)PkgCmdIDList.CmdCompileTsFiles);
-            OleMenuCommand menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID);
+            var menuCommandID = new CommandID(GuidList.GuidCompileTsCmdSet, (int)PkgCmdIDList.CmdCompileTsFiles);
+            var menuItem = new OleMenuCommand(MenuItemCallback, menuCommandID);
             menuItem.BeforeQueryStatus += menuItem_BeforeQueryStatus;
             Menu.AddCommand(menuItem);
         }
@@ -67,8 +67,7 @@ namespace Geeks.GeeksProductivityTools.Menus
                 menuCommand.Enabled = false;
 
                 IEnumerable<string> tsFiles = TypeScriptHelper.GetSelectedTypescriptFiles();
-                if (!tsFiles.Any())
-                    return;
+                if (!tsFiles.Any()) return;
 
                 menuCommand.Visible = true;
                 menuCommand.Enabled = true;

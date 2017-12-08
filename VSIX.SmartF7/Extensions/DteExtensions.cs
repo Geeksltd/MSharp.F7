@@ -20,8 +20,7 @@ namespace GeeksAddin
                 if (selection != null)
                 {
                     var selectedText = selection.Text as string;
-                    if (selectedText.HasValue())
-                        return selectedText;
+                    if (selectedText.HasValue()) return selectedText;
                 }
             }
 
@@ -30,8 +29,7 @@ namespace GeeksAddin
 
         public static string GetCurrentProjectPath(this DTE2 app)
         {
-            if (app.ActiveDocument == null)
-                return null;
+            if (app.ActiveDocument == null) return null;
 
             var documentPath = app.ActiveDocument.Path.ToLower();
             var allProjectPaths = Utils.FindSolutionDirectories(app);
@@ -47,7 +45,6 @@ namespace GeeksAddin
             var items = (Array)App.DTE.ToolWindows.SolutionExplorer.SelectedItems;
             foreach (UIHierarchyItem selItem in items)
             {
-
                 if (selItem.Object is ProjectItem item)
                     yield return item.Properties.Item("FullPath").Value.ToString();
             }

@@ -1,10 +1,10 @@
-﻿using EnvDTE;
+﻿using System;
+using System.ComponentModel.Design;
+using System.Windows;
+using EnvDTE;
 using Geeks.GeeksProductivityTools.Menus.OpenInMSharp;
 using Geeks.SmartF7.ToggleHandler;
 using Microsoft.VisualStudio.Shell;
-using System;
-using System.ComponentModel.Design;
-using System.Windows;
 
 namespace Geeks.GeeksProductivityTools.Menus
 {

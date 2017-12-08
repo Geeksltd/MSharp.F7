@@ -13,15 +13,14 @@ namespace Geeks.GeeksProductivityTools
             Typescript = new TypescriptSettings();
         }
 
-        //---------------------------------------
+        // ---------------------------------------
 
         string FilePath
         {
             get
             {
                 var solutionPath = GetSolutionFilePath();
-                if (solutionPath == null)
-                    return string.Empty;
+                if (solutionPath == null) return string.Empty;
 
                 return Path.Combine(solutionPath, SETTINGS_FILE_NAME);
             }
@@ -37,7 +36,7 @@ namespace Geeks.GeeksProductivityTools
             return Path.GetDirectoryName(solution.FullName);
         }
 
-        //---------------------------------------
+        // ---------------------------------------
 
         public GlobalSettings Load()
         {
@@ -52,7 +51,7 @@ namespace Geeks.GeeksProductivityTools
 
         public void Save()
         {
-            string json = JsonConvert.SerializeObject(App.Settings, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(App.Settings, Formatting.Indented);
 
             File.WriteAllText(FilePath, json);
 

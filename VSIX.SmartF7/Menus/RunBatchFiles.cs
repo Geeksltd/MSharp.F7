@@ -31,8 +31,7 @@ namespace Geeks.GeeksProductivityTools.Menus
             try
             {
                 var fileName = GetSelectedItem().Get(f => f.ToLower());
-                if (fileName == null)
-                    return;
+                if (fileName == null) return;
 
                 var workingDirectory = Path.GetDirectoryName(fileName);
                 var projectFolder = FindProjectFolder(workingDirectory);
@@ -56,9 +55,8 @@ namespace Geeks.GeeksProductivityTools.Menus
         string FindProjectFolder(string directory)
         {
             while (directory != null && !ContainsProjectFile(directory))
-            {
                 directory = Directory.GetParent(directory).Get(d => d.FullName);
-            }
+
 
             return directory;
         }
@@ -73,8 +71,7 @@ namespace Geeks.GeeksProductivityTools.Menus
                 command.Visible = false;
 
                 var fileName = GetSelectedItem();
-                if (fileName == null)
-                    return;
+                if (fileName == null) return;
 
                 command.Visible = fileName.ToLower().EndsWithAny(".bat", ".cmd", ".ps");
             }

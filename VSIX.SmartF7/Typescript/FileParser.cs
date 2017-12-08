@@ -8,16 +8,14 @@ namespace Geeks.GeeksProductivityTools.TypeScript
 {
     public class FileParser
     {
-        const string comment = "///";
-        const string reference = "<reference";
+        const string COMMENT = "///", REFERENCE = "<reference";
 
         public static IEnumerable<string> FindReferenceFiles(string path, bool includeDeclarations = false)
         {
             var refs = FindReferences(path, includeDeclarations);
             foreach (var item in refs)
-            {
                 yield return new Uri(new Uri(path), item.TrimStart('/')).LocalPath;
-            }
+
         }
 
         public static IEnumerable<string> FindReferences(string path, bool includeDeclarations = false)
@@ -26,13 +24,13 @@ namespace Geeks.GeeksProductivityTools.TypeScript
 
             foreach (var line in lines)
             {
-                var beginningOfComment = line.IndexOf(comment);
+                var beginningOfComment = line.IndexOf(COMMENT);
                 if (beginningOfComment == -1) // Check if line has comment
                     continue;
 
                 var commentedPart = line.Substring(beginningOfComment);
 
-                var beginningOfReference = commentedPart.IndexOf(reference);
+                var beginningOfReference = commentedPart.IndexOf(REFERENCE);
                 if (beginningOfReference == -1) // Check if commented part has reference tag
                     continue;
 
@@ -63,8 +61,7 @@ namespace Geeks.GeeksProductivityTools.TypeScript
             var staticResult = new List<string>();
             foreach (var item in allPathsInFile)
             {
-                if (collectedFiles.Contains(item))
-                    continue;
+                if (collectedFiles.Contains(item)) continue;
 
                 collectedFiles.Add(item);
                 result.Add(item);

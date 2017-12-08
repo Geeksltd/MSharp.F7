@@ -76,8 +76,7 @@ namespace GeeksAddin
 
             return commandLine.Split(c =>
             {
-                if (c == '\"')
-                    inQuotes = !inQuotes;
+                if (c == '\"') inQuotes = !inQuotes;
                 return !inQuotes && c == ' ';
             }).Select(arg => arg.Trim().TrimMatchingQuotes())
               .Where(arg => !string.IsNullOrEmpty(arg));
@@ -130,8 +129,7 @@ namespace GeeksAddin
         public static bool ContainsAny(this string str, params string[] subStrings)
         {
             foreach (var subString in subStrings)
-                if (str.Contains(subString))
-                    return true;
+                if (str.Contains(subString)) return true;
 
             return false;
         }

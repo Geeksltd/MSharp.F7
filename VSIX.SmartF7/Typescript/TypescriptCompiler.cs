@@ -28,9 +28,10 @@ namespace Geeks.GeeksProductivityTools.TypeScript
             {
                 argument += " --sourcemap";
             }
+
             argument += " --out " + newFileName + " " + file.Name;
 
-            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+            var startInfo = new System.Diagnostics.ProcessStartInfo
             {
                 WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
                 WorkingDirectory = file.DirectoryName,
