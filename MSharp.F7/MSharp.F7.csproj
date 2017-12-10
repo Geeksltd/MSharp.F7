@@ -346,7 +346,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SmartF7Package.cs" />
+    <Compile Include="MSharpF7Package.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
     <Compile Include="Settings\TypescriptSettings.cs" />
@@ -385,7 +385,7 @@
     <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <VSCTCompile Include="SmartF7.vsct">
+    <VSCTCompile Include="MSharpF7.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
