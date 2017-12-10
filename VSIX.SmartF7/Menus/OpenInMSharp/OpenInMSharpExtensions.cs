@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using GeeksAddin;
 
-namespace Geeks.GeeksProductivityTools.Menus.OpenInMSharp
+namespace MSharp.F7.Menus.OpenInMSharp
 {
     internal static class FileTypeDetector
     {

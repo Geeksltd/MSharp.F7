@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using EnvDTE;
 using EnvDTE80;
-using Geeks.GeeksProductivityTools;
+using MSharp.F7;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace GeeksAddin

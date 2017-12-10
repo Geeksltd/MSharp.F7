@@ -1,6 +1,6 @@
 using EnvDTE;
 
-namespace Geeks.GeeksProductivityTools.Extensions
+namespace MSharp.F7.Extensions
 {
     public static class FileExtensions
     {

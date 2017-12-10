@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Geeks.GeeksProductivityTools.Menus.OpenInMSharp
+namespace MSharp.F7.Menus.OpenInMSharp
 {
     public abstract class OpenInMSharpHandler
     {

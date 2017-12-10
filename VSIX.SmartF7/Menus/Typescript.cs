@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
-using Geeks.GeeksProductivityTools.TypeScript;
+using MSharp.F7.TypeScript;
 using Microsoft.VisualStudio.Shell;
 
-namespace Geeks.GeeksProductivityTools.Menus
+namespace MSharp.F7.Menus
 {
     public class Typescript
     {
@@ -44,7 +44,7 @@ namespace Geeks.GeeksProductivityTools.Menus
                 tsFiles = tsFiles.Select(f => TypeScriptHelper.GetFullPathFromRelativePath(f));
                 System.Threading.Tasks.Task.Run(() =>
                 {
-                    Geeks.GeeksProductivityTools.TypeScript.TypescriptCompiler.Compile(tsFiles);
+                    MSharp.F7.TypeScript.TypescriptCompiler.Compile(tsFiles);
                 });
             }
         }
@@ -90,7 +90,7 @@ namespace Geeks.GeeksProductivityTools.Menus
             var filesToCompile = TypeScriptHelper.RootFilesToCompileFromFile(Document.FullName);
             System.Threading.Tasks.Task.Run(() =>
             {
-                Geeks.GeeksProductivityTools.TypeScript.TypescriptCompiler.Compile(filesToCompile);
+                MSharp.F7.TypeScript.TypescriptCompiler.Compile(filesToCompile);
             });
         }
     }

@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace Geeks.GeeksProductivityTools
+namespace MSharp.F7
 {
     public class TypescriptSettings
     {
@@ -17,7 +17,7 @@ namespace Geeks.GeeksProductivityTools
 
         public string[] GetFullPathFiles()
         {
-            return RootFiles.Select(f => Geeks.GeeksProductivityTools.TypeScript.TypeScriptHelper.GetFullPathFromRelativePath(f)).ToArray();
+            return RootFiles.Select(f => MSharp.F7.TypeScript.TypeScriptHelper.GetFullPathFromRelativePath(f)).ToArray();
         }
     }
 }

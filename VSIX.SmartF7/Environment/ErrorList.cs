@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.Shell;
 
-namespace Geeks.GeeksProductivityTools
+namespace MSharp.F7
 {
     public static class ErrorList
     {

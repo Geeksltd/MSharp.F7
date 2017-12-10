@@ -1,4 +1,4 @@
-namespace Geeks.GeeksProductivityTools
+namespace MSharp.F7
 {
     public class MSharpProject
     {

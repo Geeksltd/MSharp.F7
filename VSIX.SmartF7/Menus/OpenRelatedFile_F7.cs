@@ -2,11 +2,11 @@
 using System.ComponentModel.Design;
 using System.Windows;
 using EnvDTE;
-using Geeks.GeeksProductivityTools.Menus.OpenInMSharp;
+using MSharp.F7.Menus.OpenInMSharp;
 using Geeks.SmartF7.ToggleHandler;
 using Microsoft.VisualStudio.Shell;
 
-namespace Geeks.GeeksProductivityTools.Menus
+namespace MSharp.F7.Menus
 {
     public class OpenRelatedFileF7
     {

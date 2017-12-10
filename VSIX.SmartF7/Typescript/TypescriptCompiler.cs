@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Geeks.GeeksProductivityTools.TypeScript
+namespace MSharp.F7.TypeScript
 {
     public class TypescriptCompiler
     {

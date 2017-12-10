@@ -5,7 +5,7 @@ namespace GeeksAddin
     using System.Linq;
     using EnvDTE;
     using EnvDTE80;
-    using Geeks.GeeksProductivityTools;
+    using MSharp.F7;
 
     static class DteExtensions
     {

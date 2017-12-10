@@ -21,8 +21,8 @@
     <OutputType>Library</OutputType>
     <VsixType>v3</VsixType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Geeks.VSIX.SmartF7</RootNamespace>
-    <AssemblyName>GeeksVSIX.SmartF7</AssemblyName>
+    <RootNamespace>MSharp.F7</RootNamespace>
+    <AssemblyName>MSharp.F7</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>

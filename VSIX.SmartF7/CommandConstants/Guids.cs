@@ -2,7 +2,7 @@
 // MUST match guids.h
 using System;
 
-namespace Geeks.GeeksProductivityTools
+namespace MSharp.F7
 {
     static class GuidList
     {

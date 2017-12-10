@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 
-namespace Geeks.GeeksProductivityTools
+namespace MSharp.F7
 {
     [ProvideAutoLoad("ADFC4E64-0397-11D1-9F4E-00A0C911004F")]    // Microsoft.VisualStudio.VSConstants.UICONTEXT_NoSolution
     [PackageRegistration(UseManagedResourcesOnly = true)]

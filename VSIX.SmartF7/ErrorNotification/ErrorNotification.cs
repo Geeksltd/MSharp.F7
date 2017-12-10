@@ -1,6 +1,6 @@
 using System;
 
-namespace Geeks.GeeksProductivityTools
+namespace MSharp.F7
 {
     internal static class ErrorNotification
     {

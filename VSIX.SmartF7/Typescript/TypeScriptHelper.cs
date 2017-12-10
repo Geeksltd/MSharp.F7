@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Geeks.GeeksProductivityTools.TypeScript
+namespace MSharp.F7.TypeScript
 {
     public static class TypeScriptHelper
     {
@@ -30,7 +30,7 @@ namespace Geeks.GeeksProductivityTools.TypeScript
             var compile = new List<string>();
             foreach (var file in App.Settings.Typescript.GetFullPathFiles())
             {
-                if (Geeks.GeeksProductivityTools.TypeScript.FileParser.FindAllReferenceFiles(file).Contains(path.ToLower()))
+                if (MSharp.F7.TypeScript.FileParser.FindAllReferenceFiles(file).Contains(path.ToLower()))
                     compile.Add(file);
             }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
-using Geeks.GeeksProductivityTools;
+using MSharp.F7;
 
 namespace Geeks.SmartF7.ToggleHandler
 {

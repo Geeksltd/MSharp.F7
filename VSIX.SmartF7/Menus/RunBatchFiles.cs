@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace Geeks.GeeksProductivityTools.Menus
+namespace MSharp.F7.Menus
 {
     public class RunBatchFiles
     {

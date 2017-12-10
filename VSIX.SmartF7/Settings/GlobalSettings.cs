@@ -1,7 +1,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Geeks.GeeksProductivityTools
+namespace MSharp.F7
 {
     public class GlobalSettings
     {
@@ -44,7 +44,7 @@ namespace Geeks.GeeksProductivityTools
                 return new GlobalSettings();
 
             var json = File.ReadAllText(FilePath);
-            Geeks.GeeksProductivityTools.App.Settings = JsonConvert.DeserializeObject<GlobalSettings>(json);
+            MSharp.F7.App.Settings = JsonConvert.DeserializeObject<GlobalSettings>(json);
 
             return App.Settings;
         }
