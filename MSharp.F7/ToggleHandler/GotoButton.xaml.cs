@@ -21,11 +21,24 @@ namespace MSharp.F7.ToggleHandler
     /// </summary>
     public partial class GotoButton : UserControl
     {
-        private string RelatedFilePath;
+        private string relatedFilePath;
+        public string RelatedFilePath
+        {
+            set
+            {
+                this.relatedFilePath = value;
+            }
+        }
+        public string BtnCaption {
+            set
+            {
+                this.GoButton.Content = value;
+            }
+        }
         public GotoButton(string relatedFilePath,string btnCaption)
         {
             InitializeComponent();
-            this.RelatedFilePath = relatedFilePath;
+            this.relatedFilePath = relatedFilePath;
             this.GoButton.Content = btnCaption;
         }
 
@@ -33,7 +46,7 @@ namespace MSharp.F7.ToggleHandler
         {
             try
             {
-                App.DTE.ItemOperations.OpenFile(RelatedFilePath);
+                App.DTE.ItemOperations.OpenFile(relatedFilePath);
             }
             catch (Exception err)
             {

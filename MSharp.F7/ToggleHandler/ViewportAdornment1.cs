@@ -89,8 +89,8 @@ namespace MSharp.F7.ToggleHandler
 
                 if (buttonVisible)
                 {
-                    this.view.GetAdornmentLayer("ViewportAdornment1").RemoveAllAdornments();
-                    new ViewportAdornment1(this.view, RelatedFilePath, buttonText);
+                    goButton.RelatedFilePath = RelatedFilePath;
+                    goButton.BtnCaption = buttonText;
                 }
             }
             catch (Exception err)
