@@ -8,13 +8,13 @@ using System.Diagnostics;
 
 namespace MSharp.F7.Menus
 {
+    //public enum PageOrModule { None, Page, Module }
     public class OpenRelatedFileF7
     {
         OleMenuCommandService Menu;
         string RelatedFilePath;
-        public static PageOrModule State = PageOrModule.None;
-        public enum PageOrModule { None, Page, Module }
-
+        //public static PageOrModule State = PageOrModule.None;
+        
         public OpenRelatedFileF7(OleMenuCommandService menu)
         {
             Menu = menu;
@@ -52,43 +52,43 @@ namespace MSharp.F7.Menus
             {
                 if (null != cmd)
                     if (currentDocument.IsEntityFile())
-                    {
-                        if (NextEntityFilePath(currentDocument))
+                    { 
+                        if (Toolbox.NextEntityFilePath(currentDocument, ref RelatedFilePath))
                         {
                             cmd.Visible = true;
                             cmd.Text = "Go To Related Entity File";
-                            State = PageOrModule.None;
+                            Toolbox.State = PageOrModule.None;
                         }
                     }
                     else if (currentDocument.IsComponentFile())
                     {
-                        if (NextComponentFilePath(currentDocument))
+                        if (Toolbox.NextComponentFilePath(currentDocument, ref RelatedFilePath))
                         {
                             cmd.Visible = true;
                             cmd.Text = "Go To Related Component File";
-                            State = PageOrModule.None;
+                            Toolbox.State = PageOrModule.None;
                         }
                     }
-                    else if (State == PageOrModule.Page && currentDocument.IsModuleOfWebCtrlPage() && currentDocument.IsMvcWebController())
+                    else if (Toolbox.State == PageOrModule.Page && currentDocument.IsModuleOfWebCtrlPage() && currentDocument.IsMvcWebController())
                     {
-                        if (NextMvcFilePath(App.DTE.ActiveDocument))
+                        if (Toolbox.NextMvcFilePath(currentDocument,ref RelatedFilePath,ref Toolbox.State))
                         { cmd.Visible = true; cmd.Text = "Go To Related MVC Page"; }
                     }
-                    else if (State == PageOrModule.Page && currentDocument.IsModuleOfWebViewPage() && currentDocument.IsMvcWebView())
+                    else if (Toolbox.State == PageOrModule.Page && currentDocument.IsModuleOfWebViewPage() && currentDocument.IsMvcWebView())
                     {
-                        if (NextMvcFilePath(App.DTE.ActiveDocument)) { cmd.Visible = true; cmd.Text = "Go To Related MVC Page"; }
+                        if (Toolbox.NextMvcFilePath(App.DTE.ActiveDocument,ref RelatedFilePath, ref Toolbox.State)) { cmd.Visible = true; cmd.Text = "Go To Related MVC Page"; }
                     }
                     else if (currentDocument.IsModuleFile())
                     {
-                        if (NextModuleFilePath(currentDocument))
+                        if (Toolbox.NextModuleFilePath(currentDocument,ref RelatedFilePath,ref Toolbox.State))
                         {
                             cmd.Visible = true;
                             cmd.Text = "Go To Related Module File";
-                            State = PageOrModule.None;
+                            Toolbox.State = PageOrModule.None;
                         }
                     }
                     else if (currentDocument.IsMvcFile())
-                        if (NextMvcFilePath(App.DTE.ActiveDocument))
+                        if (Toolbox.NextMvcFilePath(currentDocument,ref RelatedFilePath,ref Toolbox.State))
                         {
                             cmd.Visible = true;
                             cmd.Text = "Go To Related MVC Page";
@@ -99,110 +99,6 @@ namespace MSharp.F7.Menus
                 StackTrace st = new StackTrace(err);
                 Debug.WriteLine(st.ToString());
             }
-        }
-
-        bool NextEntityFilePath(Document curDocument)
-        {
-            if (curDocument.IsEntityOfModel())
-            {
-                RelatedFilePath = curDocument.GetEntityFromModel();
-                return true;
-            }
-
-            if (curDocument.IsEntityOfDomainEntity())
-            {
-                RelatedFilePath = curDocument.GetEntityFromDomainEntity();
-                return true;
-            }
-
-            if (curDocument.IsEntityOfDomainLogic())
-            {
-                RelatedFilePath = curDocument.GetEntityFromDomainLogic();
-                return true;
-            }
-
-            return false;
-        }
-
-        bool NextComponentFilePath(Document curDocument)
-        {
-            RelatedFilePath = "";
-            if (curDocument.IsComponentOfUI())
-            {
-                RelatedFilePath = curDocument.GetComponentFromUI();
-            }
-            else if (curDocument.IsComponentOfWebCtrl())
-            {
-                RelatedFilePath = curDocument.GetComponentFromCtrl();
-            }
-            else if (curDocument.IsComponentOfWebView())
-            {
-                RelatedFilePath = curDocument.GetComponentFromView();
-            }
-
-            if (RelatedFilePath.Length > 0)
-            {
-                return true;
-            }
-            else
-                return false;
-        }
-
-        bool NextModuleFilePath(Document curDocument)
-        {
-            RelatedFilePath = "";
-            if (curDocument.IsModuleOfUI())
-            {
-                RelatedFilePath = curDocument.GetModuleOfUI();
-                State = PageOrModule.Module;
-            }
-            else if (curDocument.IsModuleOfWebCtrlModule())
-            {
-                RelatedFilePath = curDocument.GetModuleOfWebCtrlModule();
-            }
-            else if (curDocument.IsModuleOfWebCtrlPage())
-            {
-                RelatedFilePath = curDocument.GetModuleOfWebCtrlPage();
-            }
-            else if (curDocument.IsModuleOfWebVeiwModule())
-            {
-                RelatedFilePath = curDocument.GetModuleOfWebViewModule();
-            }
-            else if (curDocument.IsModuleOfWebViewPage())
-            {
-                RelatedFilePath = curDocument.GetModuleOfWebViewPage();
-            }
-
-            if (RelatedFilePath.Length > 0)
-            {
-                return true;
-            }
-            else
-                return false;
-        }
-
-        bool NextMvcFilePath(Document curDocument)
-        {
-            RelatedFilePath = "";
-            if (curDocument.IsMvcUIPage())
-            {
-                RelatedFilePath = curDocument.GetMvcControllerOfUIPage();
-                State = PageOrModule.Page;
-            }
-            else if (curDocument.IsMvcWebController())
-            {
-                RelatedFilePath = curDocument.GetMvcPageOfWebController();
-            }
-            else if (curDocument.IsMvcWebView())
-            {
-                RelatedFilePath = curDocument.GetMvcPageOfWebView();
-            }
-            if (RelatedFilePath.Length > 0)
-            {
-                return true;
-            }
-            else
-                return false;
         }
     }
 }

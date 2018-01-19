@@ -6,8 +6,10 @@ using MSharp.F7;
 
 namespace MSharp.F7.ToggleHandler
 {
+    public enum PageOrModule { None, Page, Module }
     public static class Toolbox
     {
+        public static PageOrModule State = PageOrModule.None;
         public static bool ContainsAny(this string str, params string[] subStrings)
         {
             foreach (var subString in subStrings)
@@ -227,7 +229,6 @@ namespace MSharp.F7.ToggleHandler
         internal static string GetModuleOfWebCtrlModule(this Document document)
         {
             var moduleFilePath = "";
-            //var SolutionDir = App.DTE.Solution.FullName.Substring(0, App.DTE.Solution.FullName.LastIndexOf(@"\"));
             var moduleName = document.ProjectItem.FileCodeModel.CodeElements.OfType<CodeElement>().FirstOrDefault(n => n.Kind == vsCMElement.vsCMElementNamespace && n.Name.ToUpper().Equals("VIEWMODEL")).Children.OfType<CodeElement>().FirstOrDefault(c => c.Kind == vsCMElement.vsCMElementClass).Name;
             var moduleViewFolder = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "WEBSITE").ProjectItems.Item("Views").ProjectItems.Item("Modules");
             var moduleFile = moduleViewFolder.ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == (moduleName + ".cshtml").ToUpper());
@@ -236,7 +237,6 @@ namespace MSharp.F7.ToggleHandler
                 moduleFilePath = moduleFile.FileNames[0];
             }
             return moduleFilePath;
-            //return SolutionDir + @"\Website\Views\Modules\" + moduleName + ".cshtml";
         }
 
         internal static string GetModuleOfWebViewPage(this Document document)
@@ -464,6 +464,111 @@ namespace MSharp.F7.ToggleHandler
             }
 
             return entityFile.FileNames[0];
+        }
+
+        //------------Next File Functions--------------------
+        public static bool NextEntityFilePath(Document curDocument,ref string RelatedFilePath)
+        {
+            if (curDocument.IsEntityOfModel())
+            {
+                RelatedFilePath = curDocument.GetEntityFromModel();
+                return true;
+            }
+
+            if (curDocument.IsEntityOfDomainEntity())
+            {
+                RelatedFilePath = curDocument.GetEntityFromDomainEntity();
+                return true;
+            }
+
+            if (curDocument.IsEntityOfDomainLogic())
+            {
+                RelatedFilePath = curDocument.GetEntityFromDomainLogic();
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool NextComponentFilePath(Document curDocument, ref string RelatedFilePath)
+        {
+            RelatedFilePath = "";
+            if (curDocument.IsComponentOfUI())
+            {
+                RelatedFilePath = curDocument.GetComponentFromUI();
+            }
+            else if (curDocument.IsComponentOfWebCtrl())
+            {
+                RelatedFilePath = curDocument.GetComponentFromCtrl();
+            }
+            else if (curDocument.IsComponentOfWebView())
+            {
+                RelatedFilePath = curDocument.GetComponentFromView();
+            }
+
+            if (RelatedFilePath.Length > 0)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public static bool NextModuleFilePath(Document curDocument,ref string RelatedFilePath,ref PageOrModule State)
+        {
+            RelatedFilePath = "";
+            if (curDocument.IsModuleOfUI())
+            {
+                RelatedFilePath = curDocument.GetModuleOfUI();
+                State = PageOrModule.Module;
+            }
+            else if (curDocument.IsModuleOfWebCtrlModule())
+            {
+                RelatedFilePath = curDocument.GetModuleOfWebCtrlModule();
+            }
+            else if (curDocument.IsModuleOfWebCtrlPage())
+            {
+                RelatedFilePath = curDocument.GetModuleOfWebCtrlPage();
+            }
+            else if (curDocument.IsModuleOfWebVeiwModule())
+            {
+                RelatedFilePath = curDocument.GetModuleOfWebViewModule();
+            }
+            else if (curDocument.IsModuleOfWebViewPage())
+            {
+                RelatedFilePath = curDocument.GetModuleOfWebViewPage();
+            }
+
+            if (RelatedFilePath.Length > 0)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public static bool NextMvcFilePath(Document curDocument, ref string RelatedFilePath, ref PageOrModule State)
+        {
+            RelatedFilePath = "";
+            if (curDocument.IsMvcUIPage())
+            {
+                RelatedFilePath = curDocument.GetMvcControllerOfUIPage();
+                State = PageOrModule.Page;
+            }
+            else if (curDocument.IsMvcWebController())
+            {
+                RelatedFilePath = curDocument.GetMvcPageOfWebController();
+            }
+            else if (curDocument.IsMvcWebView())
+            {
+                RelatedFilePath = curDocument.GetMvcPageOfWebView();
+            }
+            if (RelatedFilePath.Length > 0)
+            {
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

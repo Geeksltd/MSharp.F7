@@ -352,7 +352,12 @@
     <Compile Include="Settings\TypescriptSettings.cs" />
     <Compile Include="Structures\Gadget.cs" />
     <Compile Include="Structures\MSharpProject.cs" />
+    <Compile Include="ToggleHandler\GotoButton.xaml.cs">
+      <DependentUpon>GotoButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ToggleHandler\Toolbox.cs" />
+    <Compile Include="ToggleHandler\ViewportAdornment1.cs" />
+    <Compile Include="ToggleHandler\ViewportAdornment1TextViewCreationListener.cs" />
     <Compile Include="Typescript\FileParser.cs" />
     <Compile Include="Typescript\TypescriptCompiler.cs" />
     <Compile Include="Typescript\TypeScriptHelper.cs" />
@@ -422,7 +427,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="ToggleHandler\GotoButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
