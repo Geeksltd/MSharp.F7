@@ -53,8 +53,7 @@ namespace MSharp.F7.ToggleHandler
 
         private void View_GotAggregateFocus(object sender, EventArgs e)
         {
-            //System.Windows.MessageBox.Show("focused");
-            var currentDocument = ActiveDoc(this.view);
+            var currentDocument = Toolbox.ActiveDoc(this.view);
 
             var RelatedFilePath = "";
             var buttonVisible = false;
@@ -98,30 +97,6 @@ namespace MSharp.F7.ToggleHandler
                 StackTrace st = new StackTrace(err);
                 Debug.WriteLine(st.ToString());
             }
-        }
-
-        private EnvDTE.Document ActiveDoc(IWpfTextView textView)
-        {
-            var filePath = GetPath(textView);
-            EnvDTE.Document doc = null;
-            if (filePath != null)
-            {
-                doc = App.DTE.Documents.OfType<EnvDTE.Document>().FirstOrDefault(d => d.FullName.ToUpper() == filePath.ToUpper());
-            }
-            return doc;
-        }
-
-        private string GetPath(IWpfTextView textView)
-        {
-            textView.TextBuffer.Properties.TryGetProperty(typeof(IVsTextBuffer), out IVsTextBuffer bufferAdapter);
-            var persistFileFormat = bufferAdapter as IPersistFileFormat;
-
-            if (persistFileFormat == null)
-            {
-                return null;
-            }
-            persistFileFormat.GetCurFile(out string filePath, out _);
-            return filePath;
         }
     }
 }

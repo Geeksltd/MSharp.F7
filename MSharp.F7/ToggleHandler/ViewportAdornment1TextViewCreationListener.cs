@@ -27,7 +27,7 @@ namespace MSharp.F7.ToggleHandler
 
         public void TextViewCreated(IWpfTextView textView)
         {
-            var currentDocument = ActiveDoc(textView);
+            var currentDocument = Toolbox.ActiveDoc(textView);
 
             var RelatedFilePath = "";
             var buttonVisible = false;
@@ -90,28 +90,5 @@ namespace MSharp.F7.ToggleHandler
             }
         }
 
-        private EnvDTE.Document ActiveDoc(IWpfTextView textView)
-        {
-            var filePath = GetPath(textView);
-            EnvDTE.Document doc = null;
-            if (filePath != null)
-            {
-                doc = App.DTE.Documents.OfType<EnvDTE.Document>().FirstOrDefault(d => d.FullName.ToUpper() == filePath.ToUpper());
-            }
-            return doc;
-        }
-
-        private string GetPath(IWpfTextView textView)
-        {
-            textView.TextBuffer.Properties.TryGetProperty(typeof(IVsTextBuffer), out IVsTextBuffer bufferAdapter);
-            var persistFileFormat = bufferAdapter as IPersistFileFormat;
-
-            if (persistFileFormat == null)
-            {
-                return null;
-            }
-            persistFileFormat.GetCurFile(out string filePath, out _);
-            return filePath;
-        }
     }
 }

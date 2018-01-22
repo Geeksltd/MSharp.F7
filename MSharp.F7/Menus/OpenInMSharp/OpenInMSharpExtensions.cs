@@ -6,13 +6,13 @@ namespace MSharp.F7.Menus.OpenInMSharp
 {
     internal static class FileTypeDetector
     {
-        internal static bool IsMvcFile(this string fileName) => fileName.ToUpper().EndsWithAny(".CS", ".CSHTML") && fileName.ToUpper().ContainsAny(@"@M#\@UI\PAGES\", @"WEBSITE\CONTROLLERS\PAGES\", @"WEBSITE\VIEWS\PAGES\");
+        internal static bool IsMvcFile(this string fileName) => fileName.ToUpper().EndsWithAny(".CS", ".CSHTML") && fileName.ToUpper().ContainsAny(@"M#\UI\PAGES\", @"WEBSITE\CONTROLLERS\PAGES\", @"WEBSITE\VIEWS\PAGES\");
 
         internal static bool IsEntityFile(this string fileName) => fileName.ToUpper().EndsWith(".CS") && fileName.ToUpper().ContainsAny("\\@LOGIC\\", "\\LOGIC\\", "\\-LOGIC\\", "\\ENTITIES\\");
 
         internal static bool IsWebFormsFile(this string fileName) => fileName.ToUpper().EndsWithAny("ASPX", "ASPX.CS", "ASCX", "ASCX.CS");
 
-        internal static bool IsUIPageFile(this string fileName) => fileName.ToUpper().EndsWith(".CS") && fileName.ToUpper().Contains(@"@M#\@UI\PAGES\");
+        internal static bool IsUIPageFile(this string fileName) => fileName.ToUpper().EndsWith(".CS") && fileName.ToUpper().Contains(@"M#\UI\PAGES\");
     }
 
     internal static class UrlBuilder

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.TextManager.Interop;
 using MSharp.F7;
 
 namespace MSharp.F7.ToggleHandler
@@ -10,6 +13,30 @@ namespace MSharp.F7.ToggleHandler
     public static class Toolbox
     {
         public static PageOrModule State = PageOrModule.None;
+
+        public static EnvDTE.Document ActiveDoc(IWpfTextView textView)
+        {
+            var filePath = GetPath(textView);
+            EnvDTE.Document doc = null;
+            if (filePath != null)
+            {
+                doc = App.DTE.Documents.OfType<EnvDTE.Document>().FirstOrDefault(d => d.FullName.ToUpper() == filePath.ToUpper());
+            }
+            return doc;
+        }
+
+        public static string GetPath(IWpfTextView textView)
+        {
+            textView.TextBuffer.Properties.TryGetProperty(typeof(IVsTextBuffer), out IVsTextBuffer bufferAdapter);
+            var persistFileFormat = bufferAdapter as IPersistFileFormat;
+
+            if (persistFileFormat == null)
+            {
+                return null;
+            }
+            persistFileFormat.GetCurFile(out string filePath, out _);
+            return filePath;
+        }
         public static bool ContainsAny(this string str, params string[] subStrings)
         {
             foreach (var subString in subStrings)
@@ -94,7 +121,7 @@ namespace MSharp.F7.ToggleHandler
         public static string GetMvcPageOfWebView(this Document webControlerDoc)
         {
             var mvcPagePath = "";
-            var prjName = App.DTE.Application.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name == "@UI").ProjectItems.Item("Pages");
+            var prjName = App.DTE.Application.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name == "#UI").ProjectItems.Item("Pages");
             var uiPageItem = prjName.ProjectItems.GetProjectItems().Where(v => v.Name.ToUpper().Contains(".CS")).FirstOrDefault(p => p.GetMvcPageNameOfUIPage().ToUpper() == webControlerDoc.Name.ToUpper());
             if (uiPageItem != null)
             {
@@ -103,7 +130,7 @@ namespace MSharp.F7.ToggleHandler
             return mvcPagePath;
         }
 
-        public static bool IsMvcUIPage(this Document document) => document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains("\\@UI\\PAGES\\");
+        public static bool IsMvcUIPage(this Document document) => document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains("\\UI\\PAGES\\");
 
         public static bool IsMvcWebController(this Document document)
         {
@@ -117,7 +144,7 @@ namespace MSharp.F7.ToggleHandler
 
         internal static bool IsMvcFile(this Document document)
         {
-            return document.Name.ToUpper().EndsWithAny(".CS", ".CSHTML") && document.FullName.ToUpper().ContainsAny(@"@M#\@UI\PAGES\", @"WEBSITE\CONTROLLERS\PAGES\", @"WEBSITE\VIEWS\PAGES\");
+            return document.Name.ToUpper().EndsWithAny(".CS", ".CSHTML") && document.FullName.ToUpper().ContainsAny(@"M#\UI\PAGES\", @"WEBSITE\CONTROLLERS\PAGES\", @"WEBSITE\VIEWS\PAGES\");
         }
         // ---------Modules------------
         internal static bool IsModuleFile(this Document document)
@@ -156,7 +183,7 @@ namespace MSharp.F7.ToggleHandler
         {
             var docName = document.FullName.ToUpper();
 
-            if (docName.EndsWith(".CS") && docName.Contains("@UI\\MODULES\\"))
+            if (docName.EndsWith(".CS") && docName.Contains("UI\\MODULES\\"))
             {
                 var moduleFolder = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "WEBSITE").ProjectItems.Item("Controllers").ProjectItems.Item("Modules");
                 var compFolder = moduleFolder.ProjectItems.OfType<ProjectItem>().FirstOrDefault(c => c.Name == "Components");
@@ -246,7 +273,7 @@ namespace MSharp.F7.ToggleHandler
             var pageFolder = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "WEBSITE").ProjectItems.Item("Controllers").ProjectItems.Item("Pages");
             var moduleCtrlFile = pageFolder.ProjectItems.GetProjectItems().FirstOrDefault(i => i.Name.ToUpper().EndsWith(".CS") && i.FileCodeModel.CodeElements.OfType<CodeElement>().Any(n => n.Kind == vsCMElement.vsCMElementNamespace && n.Name.ToUpper() == "CONTROLLERS" && n.Children.OfType<CodeElement>().Any(c => c.Kind == vsCMElement.vsCMElementClass && c.Name.ToUpper() == ctrlName)));
             var moduleName = moduleCtrlFile.FileCodeModel.CodeElements.OfType<CodeElement>().FirstOrDefault(n => n.Kind == vsCMElement.vsCMElementNamespace && n.Name.ToUpper().Equals("VIEWMODEL")).Children.OfType<CodeElement>().FirstOrDefault(c => c.Kind == vsCMElement.vsCMElementClass).Name;
-            var uiModuleFiles = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@UI").ProjectItems.Item("Modules").ProjectItems.GetProjectItems().Where(f => f.Name.ToUpper().EndsWith(".CS"));
+            var uiModuleFiles = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "#UI").ProjectItems.Item("Modules").ProjectItems.GetProjectItems().Where(f => f.Name.ToUpper().EndsWith(".CS"));
             var uiModuleFile = uiModuleFiles.FirstOrDefault(f => f.FileCodeModel.CodeElements.OfType<CodeElement>().Any(n => n.Kind == vsCMElement.vsCMElementNamespace && n.Name.ToUpper().Equals("MODULES") && n.Children.OfType<CodeElement>().Any(c => c.Kind == vsCMElement.vsCMElementClass && c.Name.ToUpper().Equals(moduleName.ToUpper()))));
             if (uiModuleFile != null)
             {
@@ -259,7 +286,7 @@ namespace MSharp.F7.ToggleHandler
         internal static string GetModuleOfWebViewModule(this Document document)
         {
             var moduleFilePath = "";
-            var moduleFiles = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@UI").ProjectItems.Item("Modules").ProjectItems.GetProjectItems();
+            var moduleFiles = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "#UI").ProjectItems.Item("Modules").ProjectItems.GetProjectItems();
             var moduleFile = moduleFiles.FirstOrDefault(m => m.Name.ToUpper().Remove(".CS") == document.Name.ToUpper().Remove(".CSHTML"));
             if (moduleFile != null)
             {
@@ -276,7 +303,7 @@ namespace MSharp.F7.ToggleHandler
             {
                 return true;
             }
-            else if (docName.EndsWith(".CS") && docName.Contains("@UI\\MODULES\\"))
+            else if (docName.EndsWith(".CS") && docName.Contains("UI\\MODULES\\"))
             {
                 var compFolder = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "WEBSITE").ProjectItems.Item("Controllers").ProjectItems.Item("Modules").ProjectItems.OfType<ProjectItem>().FirstOrDefault(c => c.Name == "Components");
                 if (compFolder != null)
@@ -291,7 +318,7 @@ namespace MSharp.F7.ToggleHandler
         internal static bool IsComponentOfUI(this Document document)
         {
             var docName = document.FullName.ToUpper();
-            if (docName.EndsWith(".CS") && docName.Contains("@UI\\MODULES\\"))
+            if (docName.EndsWith(".CS") && docName.Contains("UI\\MODULES\\"))
             {
                 var compFolder = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "WEBSITE").ProjectItems.Item("Controllers").ProjectItems.Item("Modules").ProjectItems.Item("Components");
                 return compFolder.ProjectItems.GetProjectItems().Any(i => i.Name.ToUpper().EndsWith(".CS") && i.Name.ToUpper() == document.Name.ToUpper());
@@ -350,7 +377,7 @@ namespace MSharp.F7.ToggleHandler
             var docName = App.DTE.ActiveDocument.FullName.ToUpper().Replace("\\DEFAULT.CSHTML", ".CS");
             var ix = docName.LastIndexOf("\\");
             var itemName = docName.Substring(++ix);
-            var projItem = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@UI");
+            var projItem = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "#UI");
             var fileItem = projItem.ProjectItems.Item("Modules").ProjectItems.GetProjectItems().FirstOrDefault(i => i.Name.ToUpper().EndsWith(".CS") && i.Name.ToUpper() == itemName);
             if (fileItem != null)
             {
@@ -364,7 +391,7 @@ namespace MSharp.F7.ToggleHandler
         {
             if (document.Name.ToUpper().EndsWith(".CS"))
             {
-                if (document.FullName.ToUpper().Contains("@MODEL\\"))
+                if (document.FullName.ToUpper().Contains("MODEL\\"))
                 {
                     return true;
                 }
@@ -385,7 +412,7 @@ namespace MSharp.F7.ToggleHandler
 
         internal static bool IsEntityOfModel(this Document document)
         {
-            if (document.Name.ToUpper().EndsWith(".CS") && document.ProjectItem.ContainingProject.Name.Equals("@Model"))
+            if (document.Name.ToUpper().EndsWith(".CS") && document.ProjectItem.ContainingProject.Name.ToUpper().Equals("#MODEL"))
             {
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
                 return domainProj.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper());
@@ -402,7 +429,7 @@ namespace MSharp.F7.ToggleHandler
                 var logicFolder = domainProj.ProjectItems.GetProjectItems().FirstOrDefault(f => !f.Name.Contains(".") && f.Name.ToUpper().Contains("LOGIC"));
                 if (logicFolder.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
                     return true;
-                var modelProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@MODEL");
+                var modelProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "#MODEL");
                 if (modelProj.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
                     return true;
             }
@@ -414,7 +441,7 @@ namespace MSharp.F7.ToggleHandler
         {
             if (document.Name.ToUpper().EndsWith(".CS") && document.FullName.ToUpper().Contains(@"DOMAIN\") && document.FullName.ToUpper().Contains("LOGIC"))
             {
-                var modelProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@MODEL");
+                var modelProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "#MODEL");
                 if (modelProj.ProjectItems.GetProjectItems().Any<ProjectItem>(f => f.Name.ToUpper() == document.Name.ToUpper()))
                     return true;
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
@@ -447,7 +474,7 @@ namespace MSharp.F7.ToggleHandler
             var entityFile = logicFolder.ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             if (entityFile == null)
             {
-                entityFile = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@MODEL").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
+                entityFile = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "#MODEL").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             }
 
             return entityFile.FileNames[0];
@@ -455,7 +482,7 @@ namespace MSharp.F7.ToggleHandler
 
         internal static string GetEntityFromDomainLogic(this Document document)
         {
-            var entityFile = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "@MODEL").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
+            var entityFile = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "#MODEL").ProjectItems.GetProjectItems().FirstOrDefault(f => f.Name.ToUpper() == document.Name.ToUpper());
             if (entityFile == null)
             {
                 var domainProj = App.DTE.Solution.Projects.OfType<Project>().FirstOrDefault(p => p.Name.ToUpper() == "DOMAIN");
