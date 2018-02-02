@@ -8,12 +8,10 @@ using System.Diagnostics;
 
 namespace MSharp.F7.Menus
 {
-    //public enum PageOrModule { None, Page, Module }
     public class OpenRelatedFileF7
     {
         OleMenuCommandService Menu;
         string RelatedFilePath;
-        //public static PageOrModule State = PageOrModule.None;
         
         public OpenRelatedFileF7(OleMenuCommandService menu)
         {
@@ -30,8 +28,22 @@ namespace MSharp.F7.Menus
             command.Bindings = "Global::F7";
         }
 
+       
+
         void OpenRelatedFileMenuItemCallback(object sender, EventArgs e)
         {
+            //string st1 = "", st2 = "";
+        //    var currentDocument = App.DTE.ActiveDocument.ProjectItem;
+        //    if (currentDocument.IsMvcWebController())
+        //    {
+        //        currentDocument.GetSiblingPageOfWebController(ref st1,ref st2);
+        //        System.Windows.Forms.MessageBox.Show(st1 + Environment.NewLine + st2);
+        //    }
+        //    if (currentDocument.IsMvcWebView())
+        //    {
+        //        currentDocument.GetSiblingPageOfWebView(ref st1, ref st2);
+        //        System.Windows.Forms.MessageBox.Show(st1 + Environment.NewLine + st2);
+        //    }
             try
             {
                 App.DTE.ItemOperations.OpenFile(RelatedFilePath);
@@ -45,7 +57,7 @@ namespace MSharp.F7.Menus
 
         void OpenRelatedFileMenuItem_BeforeQueryStatus(object sender, EventArgs e)
         {
-            var currentDocument = App.DTE.ActiveDocument;
+            var currentDocument = App.DTE.ActiveDocument.ProjectItem;
             var cmd = sender as OleMenuCommand;
             cmd.Visible = false;
             try
@@ -76,7 +88,7 @@ namespace MSharp.F7.Menus
                     }
                     else if (Toolbox.State == PageOrModule.Page && currentDocument.IsModuleOfWebViewPage() && currentDocument.IsMvcWebView())
                     {
-                        if (Toolbox.NextMvcFilePath(App.DTE.ActiveDocument,ref RelatedFilePath, ref Toolbox.State)) { cmd.Visible = true; cmd.Text = "Go To Related MVC Page"; }
+                        if (Toolbox.NextMvcFilePath(currentDocument, ref RelatedFilePath, ref Toolbox.State)) { cmd.Visible = true; cmd.Text = "Go To Related MVC Page"; }
                     }
                     else if (currentDocument.IsModuleFile())
                     {

@@ -25,7 +25,7 @@ namespace MSharp.F7.ToggleHandler
 
         private readonly IAdornmentLayer adornmentLayer;
 
-        public ViewportAdornment1(IWpfTextView view,string relatedFilePath,string buttonText)
+        public ViewportAdornment1(IWpfTextView view,string docType, string relatedFilePath1,bool ShowRelatedFilePath1, string relatedFilePath2, bool ShowRelatedFilePath2, string relatedFilePath3, bool ShowRelatedFilePath3)
         {
             if (view == null)
             {
@@ -38,14 +38,18 @@ namespace MSharp.F7.ToggleHandler
             this.view.GotAggregateFocus += View_GotAggregateFocus;
             this.view.LayoutChanged += this.OnSizeChanged;
 
-            goButton = new GotoButton(relatedFilePath,buttonText);
+            goButton = new GotoButton(relatedFilePath1, relatedFilePath2, relatedFilePath3);
+            goButton.DocType = docType;
+            goButton.ShowButton1 = ShowRelatedFilePath1;
+            goButton.ShowButton2 = ShowRelatedFilePath2;
+            goButton.ShowButton3 = ShowRelatedFilePath3;
         }
 
         private void OnSizeChanged(object sender, EventArgs e)
         {
             this.adornmentLayer.RemoveAllAdornments();
 
-            Canvas.SetLeft(this.goButton, this.view.ViewportRight - RightMargin - 200);
+            Canvas.SetLeft(this.goButton, this.view.ViewportRight - RightMargin - 100);
             Canvas.SetTop(this.goButton, this.view.ViewportTop + TopMargin);
 
             this.adornmentLayer.AddAdornment(AdornmentPositioningBehavior.ViewportRelative, null, null, this.goButton, null);
@@ -53,43 +57,100 @@ namespace MSharp.F7.ToggleHandler
 
         private void View_GotAggregateFocus(object sender, EventArgs e)
         {
-            var currentDocument = Toolbox.ActiveDoc(this.view);
+            var currentDocument = Toolbox.ActiveDoc(this.view).ProjectItem;
 
-            var RelatedFilePath = "";
+            string RelatedFilePath1 = "", RelatedFilePath2 = "", RelatedFilePath3 = "";
+            bool ShowRelatedFilePath1 = true, ShowRelatedFilePath2 = true, ShowRelatedFilePath3 = true;
             var buttonVisible = false;
-            var buttonText = "";
             try
             {
                 if (currentDocument != null)
                     if (Toolbox.State == PageOrModule.Page && currentDocument.IsModuleOfWebCtrlPage() && currentDocument.IsMvcWebController())
                     {
-                        if (Toolbox.NextMvcFilePath(currentDocument, ref RelatedFilePath, ref Toolbox.State))
-                        { buttonVisible = true; buttonText = "Go To Related MVC Page"; }
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfWebController(ref RelatedFilePath1, ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
                     }
                     else if (Toolbox.State == PageOrModule.Page && currentDocument.IsModuleOfWebViewPage() && currentDocument.IsMvcWebView())
                     {
-                        if (Toolbox.NextMvcFilePath(App.DTE.ActiveDocument, ref RelatedFilePath, ref Toolbox.State)) { buttonVisible = true; buttonText = "Go To Related MVC Page"; }
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfWebView(ref RelatedFilePath1, ref RelatedFilePath2);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
                     }
-                    else if (currentDocument.IsModuleFile())
+                    else if (currentDocument.IsModuleOfUI())
                     {
-                        if (Toolbox.NextModuleFilePath(currentDocument, ref RelatedFilePath, ref Toolbox.State))
-                        {
-                            buttonVisible = true;
-                            buttonText = "Go To Related Module File";
-                            Toolbox.State = PageOrModule.None;
-                        }
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfUI(ref RelatedFilePath2, ref RelatedFilePath3);
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.None;
                     }
-                    else if (currentDocument.IsMvcFile())
-                        if (Toolbox.NextMvcFilePath(currentDocument, ref RelatedFilePath, ref Toolbox.State))
-                        {
-                            buttonVisible = true;
-                            buttonText = "Go To Related MVC Page";
-                        }
-
+                    else if (currentDocument.IsModuleOfWebCtrlModule())
+                    {
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfWebCtrlModule(ref RelatedFilePath1, ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsModuleOfWebCtrlPage())
+                    {
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfWebCtrlPage(ref RelatedFilePath1, ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsModuleOfWebVeiwModule())
+                    {
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfWebViewModule(ref RelatedFilePath1, ref RelatedFilePath2);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsModuleOfWebViewPage())
+                    {
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfWebViewPage(ref RelatedFilePath1, ref RelatedFilePath2);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsMvcUIPage())
+                    {
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfUIPage(ref RelatedFilePath2, ref RelatedFilePath3);
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.Page;
+                    }
+                    else if (currentDocument.IsMvcWebController())
+                    {
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfWebController(ref RelatedFilePath1, ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsMvcWebView())
+                    {
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfWebView(ref RelatedFilePath1, ref RelatedFilePath2);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
                 if (buttonVisible)
                 {
-                    goButton.RelatedFilePath = RelatedFilePath;
-                    goButton.BtnCaption = buttonText;
+                    goButton.RelatedFilePath1 = RelatedFilePath1;
+                    goButton.RelatedFilePath2 = RelatedFilePath2;
+                    goButton.RelatedFilePath3 = RelatedFilePath3;
+                    goButton.ShowButton1 = ShowRelatedFilePath1;
+                    goButton.ShowButton2 = ShowRelatedFilePath2;
+                    goButton.ShowButton3 = ShowRelatedFilePath3;
                 }
             }
             catch (Exception err)

@@ -22,65 +22,167 @@ namespace MSharp.F7.ToggleHandler
         private AdornmentLayerDefinition editorAdornmentLayer;
 
 #pragma warning restore 649, 169
-        //PageOrModule State = PageOrModule.None;
 
 
         public void TextViewCreated(IWpfTextView textView)
         {
-            var currentDocument = Toolbox.ActiveDoc(textView);
+            var currentDocument = Toolbox.ActiveDoc(textView).ProjectItem;
 
-            var RelatedFilePath = "";
+            string RelatedFilePath1 = "", RelatedFilePath2 = "", RelatedFilePath3 = "";
+            bool ShowRelatedFilePath1 = true, ShowRelatedFilePath2 = true, ShowRelatedFilePath3 = true;
             var buttonVisible = false;
-            var buttonText = "";
+            var DocType = "";
             try
             {
                 if (currentDocument != null)
-                    if (currentDocument.IsEntityFile())
+                { 
+                    if (currentDocument.IsEntityOfModel())
                     {
-                        if (Toolbox.NextEntityFilePath(currentDocument, ref RelatedFilePath))
-                        {
-                            buttonVisible = true;
-                            buttonText = "Go To Related Entity File";
-                            Toolbox.State = PageOrModule.None;
-                        }
+                        DocType = "entity";
+                        buttonVisible = true;
+                        Toolbox.State = PageOrModule.None;
+                        currentDocument.GetSiblingEntityOfModel(ref RelatedFilePath2,ref RelatedFilePath3);
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
                     }
-                    else if (currentDocument.IsComponentFile())
+                    else if (currentDocument.IsEntityOfDomainEntity())
                     {
-                        if (Toolbox.NextComponentFilePath(currentDocument, ref RelatedFilePath))
-                        {
-                            buttonVisible = true;
-                            buttonText = "Go To Related Component File";
-                            Toolbox.State = PageOrModule.None;
-                        }
+                        DocType = "entity";
+                        buttonVisible = true;
+                        Toolbox.State = PageOrModule.None;
+                        currentDocument.GetSiblingEntityOfDomainEntity(ref RelatedFilePath1,ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                    }
+                    else if (currentDocument.IsEntityOfDomainLogic())
+                    {
+                        DocType = "entity";
+                        buttonVisible = true;
+                        Toolbox.State = PageOrModule.None;
+                        currentDocument.GetSiblingEntityOfDomainLogic(ref RelatedFilePath1,ref RelatedFilePath2);
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                    }
+                    else if (currentDocument.IsComponentOfUI())
+                    {
+                        DocType = "component";
+                        buttonVisible = true;
+                        Toolbox.State = PageOrModule.None;
+                        currentDocument.GetSiblingComponentFromUI(ref RelatedFilePath2, ref RelatedFilePath3);
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                    }
+                    else if (currentDocument.IsComponentOfWebCtrl())
+                    {
+                        DocType = "component";
+                        buttonVisible = true;
+                        Toolbox.State = PageOrModule.None;
+                        currentDocument.GetSiblingComponentFromCtrl(ref RelatedFilePath1, ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                    }
+                    else if (currentDocument.IsComponentOfWebView())
+                    {
+                        DocType = "component";
+                        buttonVisible = true;
+                        Toolbox.State = PageOrModule.None;
+                        currentDocument.GetSiblingComponentFromView(ref RelatedFilePath1, ref RelatedFilePath2);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
                     }
                     else if (Toolbox.State == PageOrModule.Page && currentDocument.IsModuleOfWebCtrlPage() && currentDocument.IsMvcWebController())
                     {
-                        if (Toolbox.NextMvcFilePath(currentDocument, ref RelatedFilePath, ref Toolbox.State))
-                        { buttonVisible = true; buttonText = "Go To Related MVC Page"; }
+                        DocType = "mvc";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfWebController(ref RelatedFilePath1, ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
                     }
                     else if (Toolbox.State == PageOrModule.Page && currentDocument.IsModuleOfWebViewPage() && currentDocument.IsMvcWebView())
                     {
-                        if (Toolbox.NextMvcFilePath(App.DTE.ActiveDocument, ref RelatedFilePath, ref Toolbox.State)) { buttonVisible = true; buttonText = "Go To Related MVC Page"; }
+                        DocType = "mvc";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfWebView(ref RelatedFilePath1, ref RelatedFilePath2);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
                     }
-                    else if (currentDocument.IsModuleFile())
+                    else if (currentDocument.IsModuleOfUI())
                     {
-                        if (Toolbox.NextModuleFilePath(currentDocument, ref RelatedFilePath, ref Toolbox.State))
-                        {
-                            buttonVisible = true;
-                            buttonText = "Go To Related Module File";
-                            Toolbox.State = PageOrModule.None;
-                        }
+                        DocType = "module";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfUI(ref RelatedFilePath2, ref RelatedFilePath3);
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.None;
                     }
-                    else if (currentDocument.IsMvcFile())
-                        if (Toolbox.NextMvcFilePath(currentDocument, ref RelatedFilePath, ref Toolbox.State))
-                        {
-                            buttonVisible = true;
-                            buttonText = "Go To Related MVC Page";
-                        }
+                    else if (currentDocument.IsModuleOfWebCtrlModule())
+                    {
+                        DocType = "module";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfWebCtrlModule(ref RelatedFilePath1, ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsModuleOfWebCtrlPage())
+                    {
+                        DocType = "module";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfWebCtrlPage(ref RelatedFilePath1, ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsModuleOfWebVeiwModule())
+                    {
+                        DocType = "module";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfWebViewModule(ref RelatedFilePath1, ref RelatedFilePath2);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsModuleOfWebViewPage())
+                    {
+                        DocType = "module";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingModuleOfWebViewPage(ref RelatedFilePath1, ref RelatedFilePath2);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsMvcUIPage())
+                    {
+                        DocType = "mvc";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfUIPage(ref RelatedFilePath2, ref RelatedFilePath3);
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.Page;
+                    }
+                    else if (currentDocument.IsMvcWebController())
+                    {
+                        DocType = "mvc";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfWebController(ref RelatedFilePath1, ref RelatedFilePath3);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath3 = RelatedFilePath3.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
+                    else if (currentDocument.IsMvcWebView())
+                    {
+                        DocType = "mvc";
+                        buttonVisible = true;
+                        currentDocument.GetSiblingMvcOfWebView(ref RelatedFilePath1, ref RelatedFilePath2);
+                        ShowRelatedFilePath1 = RelatedFilePath1.Length != 0;
+                        ShowRelatedFilePath2 = RelatedFilePath2.Length != 0;
+                        Toolbox.State = PageOrModule.None;
+                    }
 
-                if (buttonVisible)
-                {
-                    new ViewportAdornment1(textView, RelatedFilePath, buttonText);
+                    if (buttonVisible)
+                    {
+                        new ViewportAdornment1(textView,DocType, RelatedFilePath1, ShowRelatedFilePath1, RelatedFilePath2, ShowRelatedFilePath2, RelatedFilePath3, ShowRelatedFilePath3);
+                    }
                 }
             }
             catch (Exception err)
