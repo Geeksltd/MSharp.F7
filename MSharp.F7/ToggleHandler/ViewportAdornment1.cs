@@ -15,9 +15,9 @@ namespace MSharp.F7.ToggleHandler
 
         private const double AdornmentHeight = 30;
 
-        private const double TopMargin = 30;
+        private const double TopMargin = 0;
 
-        private const double RightMargin = 30;
+        private const double RightMargin = 230;
 
         private readonly IWpfTextView view;
 

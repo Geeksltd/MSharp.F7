@@ -26,14 +26,13 @@ namespace MSharp.F7.ToggleHandler
 
         public void TextViewCreated(IWpfTextView textView)
         {
-            var currentDocument = Toolbox.ActiveDoc(textView).ProjectItem;
-
             string RelatedFilePath1 = "", RelatedFilePath2 = "", RelatedFilePath3 = "";
             bool ShowRelatedFilePath1 = true, ShowRelatedFilePath2 = true, ShowRelatedFilePath3 = true;
             var buttonVisible = false;
             var DocType = "";
             try
             {
+                var currentDocument = Toolbox.ActiveDoc(textView).ProjectItem;
                 if (currentDocument != null)
                 { 
                     if (currentDocument.IsEntityOfModel())
