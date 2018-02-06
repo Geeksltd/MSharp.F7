@@ -57,13 +57,14 @@ namespace MSharp.F7.ToggleHandler
 
         private void View_GotAggregateFocus(object sender, EventArgs e)
         {
-            var currentDocument = Toolbox.ActiveDoc(this.view).ProjectItem;
-
+            if (this.view == null)
+                return;
             string RelatedFilePath1 = "", RelatedFilePath2 = "", RelatedFilePath3 = "";
             bool ShowRelatedFilePath1 = true, ShowRelatedFilePath2 = true, ShowRelatedFilePath3 = true;
             var buttonVisible = false;
             try
             {
+                var currentDocument = Toolbox.ActiveDoc(this.view).ProjectItem;
                 if (currentDocument != null)
                     if (Toolbox.State == PageOrModule.Page && currentDocument.IsModuleOfWebCtrlPage() && currentDocument.IsMvcWebController())
                     {
